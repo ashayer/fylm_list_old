@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+
 import express from "express";
 import { connectDB } from "./config/db.js";
 import path from "path";
@@ -27,7 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 // app.use(errorHandler);
 
 //if in development use public index otherwise use build
-if (process.env.ENV === "dev") {
+if (process.env.DEV === "true") {
   app.get("/*", function (req, res) {
     res.sendFile(path.join(__dirname, "../client/public/index.html"), function (err) {
       if (err) {
