@@ -8,7 +8,6 @@ function App() {
     <BrowserRouter>
       <nav>
         <Link to="/">Home</Link>
-        <Link to="/account">Account</Link>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />

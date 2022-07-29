@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-
+import authRoutes from "./routes/authRoutes.js";
 import express from "express";
 import { connectDB } from "./config/db.js";
 import path from "path";
@@ -21,8 +21,7 @@ app.use(cors());
 //parses data with querystring library
 app.use(express.urlencoded({ extended: false }));
 
-// //create api path for user requests
-// app.use("/api/users", userRoutes);
+app.use(authRoutes);
 
 // //uses errorHandler middleware
 // app.use(errorHandler);

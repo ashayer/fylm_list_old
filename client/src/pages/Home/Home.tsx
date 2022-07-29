@@ -4,7 +4,7 @@ import MovieCarousel from "../../components/MovieCarousel/MovieCarousel";
 
 const Home = () => {
   return (
-    <Box sx={{ border: "1px solid white" }}>
+    <Box>
       <MovieCarousel />
       <MoviesGrid />
     </Box>
