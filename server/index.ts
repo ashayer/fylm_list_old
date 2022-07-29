@@ -7,6 +7,7 @@ import path from "path";
 import cors from "cors";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import requireAuth from "./middleware/authMiddleware.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
