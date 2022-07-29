@@ -3,11 +3,24 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { createTheme, responsiveFontSizes, ThemeProvider } from "@mui/material/styles";
+
+let theme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+  typography: {
+    fontFamily: ["Manrope"].join(","),
+  },
+});
+theme = responsiveFontSizes(theme);
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
 );
 
