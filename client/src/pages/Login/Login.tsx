@@ -13,6 +13,10 @@ const validationSchema = yup.object({
     .required("Password is required"),
 });
 
+const login = (email: string, password: string) => {
+  
+};
+
 const Login = () => {
   const navigate = useNavigate();
 
@@ -82,17 +86,15 @@ const Login = () => {
                     helperText={formik.touched.password && formik.errors.password}
                   />
                 </Grid>
-                <Grid item sx={{ p: 3, pb: 8, pt: 5 }}>
+                <Grid item sx={{ p: 3, pb: 4, pt: 10 }}>
                   <Grid container sx={{ justifyContent: "space-between" }}>
                     <Button variant="outlined" onClick={() => navigate("/signup")}>
-                      <Typography variant="h6" sx={{ color: "white", p: 1 }}>
+                      <Typography variant="body1" sx={{ color: "white" }}>
                         Create account?
                       </Typography>
                     </Button>
                     <Button variant="contained" type="submit" color="primary">
-                      <Typography variant="h6" sx={{ p: 1 }}>
-                        Login
-                      </Typography>
+                      <Typography variant="body1">Login</Typography>
                     </Button>
                   </Grid>
                 </Grid>

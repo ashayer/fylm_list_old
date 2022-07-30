@@ -1,12 +1,7 @@
-import { Box, Card, CardMedia, Grid, Typography, Button } from "@mui/material";
-import MoviesGrid from "../../components/MoviesGrid/MoviesGrid";
-import MovieCarousel from "../../components/MovieCarousel/MovieCarousel";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
 
 const Home = () => {
-  const navigate = useNavigate();
-
-  return <Box></Box>;
+  return <div>Home</div>;
 };
 
 export default Home;
