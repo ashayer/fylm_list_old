@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, Container, Grow, TextField, Paper, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grow, TextField, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -13,12 +13,25 @@ const validationSchema = yup.object({
     .required("Password is required"),
 });
 
-const login = (email: string, password: string) => {
-  
+type loginProps = {
+  email: string;
+  password: string;
+};
+
+const login = async (userData: loginProps) => {
+  try {
+    const response = await axios.post("api/login", userData);
+    return response.status;
+  } catch (error) {
+    return error;
+  }
 };
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -27,7 +40,16 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      setEmailError("");
+      setPasswordError("");
+      login(values).then((status: any) => {
+        if (status === 200) {
+          navigate("/home");
+        } else {
+          setEmailError(status.response.data.errors.email);
+          setPasswordError(status.response.data.errors.password);
+        }
+      });
     },
   });
 
@@ -67,8 +89,10 @@ const Login = () => {
                     autoComplete="on"
                     value={formik.values.email}
                     onChange={formik.handleChange}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
+                    error={
+                      (formik.touched.email && Boolean(formik.errors.email)) || emailError != ""
+                    }
+                    helperText={(formik.touched.email && formik.errors.email) || emailError}
                   />
                 </Grid>
                 <Grid item sx={{ p: 3 }}>
@@ -82,15 +106,20 @@ const Login = () => {
                     variant="filled"
                     value={formik.values.password}
                     onChange={formik.handleChange}
-                    error={formik.touched.password && Boolean(formik.errors.password)}
-                    helperText={formik.touched.password && formik.errors.password}
+                    error={
+                      (formik.touched.password && Boolean(formik.errors.password)) ||
+                      passwordError != ""
+                    }
+                    helperText={
+                      (formik.touched.password && formik.errors.password) || passwordError
+                    }
                   />
                 </Grid>
                 <Grid item sx={{ p: 3, pb: 4, pt: 10 }}>
                   <Grid container sx={{ justifyContent: "space-between" }}>
                     <Button variant="outlined" onClick={() => navigate("/signup")}>
                       <Typography variant="body1" sx={{ color: "white" }}>
-                        Create account?
+                        Need an account?
                       </Typography>
                     </Button>
                     <Button variant="contained" type="submit" color="primary">

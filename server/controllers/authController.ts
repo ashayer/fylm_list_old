@@ -17,8 +17,8 @@ const handleError = (err: any) => {
     });
   }
 
-  if (err.message.includes("Invalid email")) {
-    errors.email = "Invalid email";
+  if (err.message.includes("Account does not exist with that email")) {
+    errors.email = "Account does not exist with that email";
   }
 
   if (err.message.includes("Invalid password")) {
@@ -58,6 +58,7 @@ export const login = async (req: express.Request, res: express.Response) => {
     res.status(200).json(user._id);
   } catch (err) {
     const errors = handleError(err);
+    console.log(errors);
     res.status(400).json({ errors });
   }
 };

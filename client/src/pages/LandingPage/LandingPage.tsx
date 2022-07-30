@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import { Box, Card, CardMedia, Grid, Typography, Button, Modal } from "@mui/material";
-import MoviesGrid from "../../components/MoviesGrid/MoviesGrid";
-import MovieCarousel from "../../components/MovieCarousel/MovieCarousel";
-import { Link, useNavigate } from "react-router-dom";
+import { Box, Grid, Typography, Button, Dialog } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import TheatersIcon from "@mui/icons-material/Theaters";
 import Signup from "../Signup/Signup";
 const LandingPage = () => {
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -54,9 +51,9 @@ const LandingPage = () => {
           <Typography>GET STARTED</Typography>
         </Button>
       </Grid>
-      <Modal open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} fullWidth>
         <Signup />
-      </Modal>
+      </Dialog>
     </Grid>
   );
 };

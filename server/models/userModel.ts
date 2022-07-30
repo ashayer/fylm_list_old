@@ -41,7 +41,7 @@ userSchema.methods.login = async function (email: string, password: string) {
     }
     throw Error("Invalid password");
   }
-  throw Error("Invalid email");
+  throw Error("Account does not exist with that email");
 };
 
 const User = mongoose.model("user", userSchema);
