@@ -35,9 +35,8 @@ const createToken = (id: mongoose.Types.ObjectId) => {
   });
 };
 
-export const signUp = async (req: express.Request, res: express.Response) => {
+export const signup = async (req: express.Request, res: express.Response) => {
   const { email, password } = req.body;
-
   try {
     const user = await User.create({ email, password });
     const token = createToken(user._id);
