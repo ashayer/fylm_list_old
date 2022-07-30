@@ -20,7 +20,7 @@ type loginProps = {
 
 const login = async (userData: loginProps) => {
   try {
-    const response = await axios.post("api/login", userData);
+    const response = await axios.post("/login", userData);
     return response.status;
   } catch (error) {
     return error;

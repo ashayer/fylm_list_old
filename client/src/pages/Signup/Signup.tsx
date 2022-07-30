@@ -5,6 +5,7 @@ import { Box, Button, Container, TextField, Paper, Grid, Typography } from "@mui
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+
 const validationSchema = yup.object({
   email: yup.string().email("Enter a valid email").required("Email is required"),
   password: yup
@@ -20,7 +21,7 @@ type SignupProps = {
 
 const signup = async (userData: SignupProps) => {
   try {
-    const response = await axios.post("api/signup", userData);
+    const response = await axios.post("/signup", userData);
     return response.status;
   } catch (error) {
     return error;
@@ -44,6 +45,7 @@ const Signup = () => {
       setPasswordError("");
       signup(values).then((status: any) => {
         if (status === 201) {
+
           navigate("/home");
         } else {
           setEmailError(status.response.data.errors.email);
