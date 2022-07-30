@@ -24,7 +24,7 @@ app.use(cookieParser());
 //parses data with querystring library
 app.use(express.urlencoded({ extended: false }));
 
-app.use(authRoutes);
+app.use("/api", authRoutes);
 
 // //uses errorHandler middleware
 // app.use(errorHandler);
