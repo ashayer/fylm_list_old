@@ -5,7 +5,7 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "node server/index.ts",
+    "start": "ts-node server/index.ts",
     "client": "npm start --prefix client",
     "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
     "f": "npm start --prefix client",
@@ -37,4 +37,3 @@
     "@types/validator": "^13.7.4"
   }
 }
-
