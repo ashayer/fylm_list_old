@@ -7,7 +7,6 @@ import path from "path";
 import cors from "cors";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-// import { checkAuth } from "./middleware/authMiddleware.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -15,7 +14,6 @@ connectDB();
 dotenv.config();
 //initialize express
 const app = express();
-//initialize dotenv
 const PORT = process.env.PORT || 5000;
 //middleware function that parses request with JSON payloads
 app.use(express.json());
@@ -23,9 +21,7 @@ app.use(cors());
 app.use(cookieParser());
 //parses data with querystring library
 app.use(express.urlencoded({ extended: false }));
-app.use(authRoutes);
-
-// app.all("*", checkAuth);
+app.use("/api", authRoutes);
 
 //if in development use public index otherwise use build
 if (process.env.DEV === "true") {
