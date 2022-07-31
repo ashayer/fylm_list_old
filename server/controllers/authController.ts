@@ -32,7 +32,6 @@ export const signupUser = async (req: express.Request, res: express.Response) =>
     const user = await User.schema.methods.signup(email, password, username);
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-
     res.status(201).json();
   } catch (err) {
     const errors = handleError(err);

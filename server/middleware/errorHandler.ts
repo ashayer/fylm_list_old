@@ -1,12 +1,11 @@
 export const handleError = (err: any) => {
   let errors: any = { email: "", password: "", username: "" };
-
   if (err.code === 11000) {
     errors.email = "Account already exists";
   }
 
-  if (err.message.includes("Account does not exist with that email")) {
-    errors.email = "Account does not exist with that email";
+  if (err.message.includes("Account does not exist with provided email")) {
+    errors.email = "Account does not exist with provided email";
   }
 
   if (err.message.includes("Email already in use")) {

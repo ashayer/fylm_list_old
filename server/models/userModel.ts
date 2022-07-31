@@ -51,7 +51,7 @@ userSchema.methods.signup = async function (email: string, password: string, use
 
   const hash = await bcrypt.hash(password, salt);
 
-  const user = await User.create({ email, password, username });
+  const user = await User.create({ email, password: hash, username });
 
   return user;
 };
@@ -65,7 +65,7 @@ userSchema.methods.login = async function (email: string, password: string) {
     }
     throw Error("Invalid password");
   }
-  throw Error("Account does not exist with that email");
+  throw new Error("Account does not exist with provided email");
 };
 
 const User = mongoose.model("user", userSchema);
