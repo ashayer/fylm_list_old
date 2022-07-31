@@ -1,14 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Grid, Typography, Button, Dialog } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import TheatersIcon from "@mui/icons-material/Theaters";
 import Signup from "../Signup/Signup";
+import useStore from "../../store";
+
 const LandingPage = () => {
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const user = useStore((state) => state.isUser);
+
+  useEffect(() => {
+    if (user) navigate("/home");
+  });
+
   return (
     <Grid
       container

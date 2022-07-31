@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { Box, Button, Container, TextField, Paper, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import useStore from "../../store";
 
 const validationSchema = yup.object({
   email: yup.string().email("Enter a valid email").required("Email is required"),
@@ -12,16 +12,18 @@ const validationSchema = yup.object({
     .string()
     .min(6, "Password should be of minimum 6 characters length")
     .required("Password is required"),
+  username: yup.string().required("Username is required"),
 });
 
 type SignupProps = {
   email: string;
   password: string;
+  username: string;
 };
 
 const signup = async (userData: SignupProps) => {
   try {
-    const response = await axios.post("/signup", userData);
+    const response = await axios.post("/api/signup", userData);
     return response.status;
   } catch (error) {
     return error;
@@ -33,23 +35,29 @@ const Signup = () => {
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+
+  const setUser = useStore((state) => state.setIsUser);
 
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
+      username: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       setEmailError("");
       setPasswordError("");
+      setUsernameError("");
       signup(values).then((status: any) => {
         if (status === 201) {
-
           navigate("/home");
+          setUser(true);
         } else {
           setEmailError(status.response.data.errors.email);
           setPasswordError(status.response.data.errors.password);
+          setUsernameError(status.response.data.errors.username);
         }
       });
     },
@@ -112,6 +120,23 @@ const Signup = () => {
                     passwordError !== ""
                   }
                   helperText={(formik.touched.password && formik.errors.password) || passwordError}
+                />
+              </Grid>
+              <Grid item sx={{ p: 3 }}>
+                <TextField
+                  fullWidth
+                  id="username"
+                  name="username"
+                  label="Username"
+                  variant="filled"
+                  autoComplete="on"
+                  value={formik.values.username}
+                  onChange={formik.handleChange}
+                  error={
+                    (formik.touched.username && Boolean(formik.errors.username)) ||
+                    usernameError !== ""
+                  }
+                  helperText={(formik.touched.username && formik.errors.username) || usernameError}
                 />
               </Grid>
               <Grid item sx={{ p: 3, pb: 4, pt: 10 }}>

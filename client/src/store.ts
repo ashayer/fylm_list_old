@@ -1,10 +1,17 @@
 import create from "zustand";
-import { devtools } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
+
+const store = (set: any) => ({
+  isUser: false,
+  setIsUser: (user: boolean) => set({ isUser: user }),
+});
+
 const useStore = create(
-  devtools((set) => ({
-    isUser: false,
-    setIsUser: (user: boolean) => set({ isUser: user }),
-  })),
+  devtools(
+    persist(store, {
+      name: "user",
+    }),
+  ),
 );
 
 export default useStore;

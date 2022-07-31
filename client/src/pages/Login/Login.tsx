@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Box, Button, Container, Grow, TextField, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import useStore from "../../store";
 
 const validationSchema = yup.object({
   email: yup.string().email("Enter a valid email").required("Email is required"),
@@ -20,7 +21,7 @@ type loginProps = {
 
 const login = async (userData: loginProps) => {
   try {
-    const response = await axios.post("/login", userData);
+    const response = await axios.post("/api/login", userData);
     return response.status;
   } catch (error) {
     return error;
@@ -28,10 +29,16 @@ const login = async (userData: loginProps) => {
 };
 
 const Login = () => {
+  const user = useStore((state) => state.isUser);
+  const setUser = useStore((state) => state.setIsUser);
   const navigate = useNavigate();
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  useEffect(() => {
+    if (user) navigate("/home");
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -44,6 +51,7 @@ const Login = () => {
       setPasswordError("");
       login(values).then((status: any) => {
         if (status === 200) {
+          setUser(true);
           navigate("/home");
         } else {
           setEmailError(status.response.data.errors.email);
