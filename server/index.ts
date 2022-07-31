@@ -25,8 +25,8 @@ app.use("/api/user", authRoutes);
 
 //if in development use public index otherwise use build
 if (process.env.DEV === "true") {
-  app.get("/*", function (req, res) {
-    res.sendFile(path.join(__dirname, "../client/public/index.html"), function (err) {
+  app.get("/*", function (req: any, res: any) {
+    res.sendFile(path.join(__dirname, "../client/public/index.html"), function (err: any) {
       if (err) {
         res.status(500).send(err);
       }
@@ -36,7 +36,7 @@ if (process.env.DEV === "true") {
   app.use(express.static(path.join(__dirname, "../client/build/")));
   app.use(express.static("public"));
 
-  app.use((req, res) => {
+  app.use((req: any, res: any) => {
     res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
   });
 }
