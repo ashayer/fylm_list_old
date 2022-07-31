@@ -12,7 +12,21 @@ const createToken = (id: mongoose.Types.ObjectId) => {
   });
 };
 
-export const signup = async (req: express.Request, res: express.Response) => {
+export const loginUser = async (req: express.Request, res: express.Response) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.schema.methods.login(email, password);
+    const token = createToken(user._id);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+
+    res.status(200).json({ id: user._id });
+  } catch (err) {
+    const errors = handleError(err);
+    res.status(400).json({ errors });
+  }
+};
+
+export const signupUser = async (req: express.Request, res: express.Response) => {
   const { email, password, username } = req.body;
   console.log(email, password, username);
   try {
@@ -21,20 +35,6 @@ export const signup = async (req: express.Request, res: express.Response) => {
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
 
     res.status(201).json();
-  } catch (err) {
-    const errors = handleError(err);
-    res.status(400).json({ errors });
-  }
-};
-
-export const login = async (req: express.Request, res: express.Response) => {
-  const { email, password } = req.body;
-  try {
-    const user = await User.schema.methods.login(email, password);
-    const token = createToken(user._id);
-    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-
-    res.status(200).json({ id: user._id });
   } catch (err) {
     const errors = handleError(err);
     res.status(400).json({ errors });

@@ -19,9 +19,9 @@ type loginProps = {
   password: string;
 };
 
-const login = async (userData: loginProps) => {
+const loginUser = async (userData: loginProps) => {
   try {
-    const response = await axios.post("/api/login", userData);
+    const response = await axios.post("/api/user/login", userData);
     return response.status;
   } catch (error) {
     return error;
@@ -49,7 +49,7 @@ const Login = () => {
     onSubmit: (values) => {
       setEmailError("");
       setPasswordError("");
-      login(values).then((status: any) => {
+      loginUser(values).then((status: any) => {
         if (status === 200) {
           setUser(true);
           navigate("/home");
@@ -98,7 +98,7 @@ const Login = () => {
                     value={formik.values.email}
                     onChange={formik.handleChange}
                     error={
-                      (formik.touched.email && Boolean(formik.errors.email)) || emailError != ""
+                      (formik.touched.email && Boolean(formik.errors.email)) || emailError !== ""
                     }
                     helperText={(formik.touched.email && formik.errors.email) || emailError}
                   />
@@ -116,7 +116,7 @@ const Login = () => {
                     onChange={formik.handleChange}
                     error={
                       (formik.touched.password && Boolean(formik.errors.password)) ||
-                      passwordError != ""
+                      passwordError !== ""
                     }
                     helperText={
                       (formik.touched.password && formik.errors.password) || passwordError

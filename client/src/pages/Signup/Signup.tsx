@@ -21,9 +21,9 @@ type SignupProps = {
   username: string;
 };
 
-const signup = async (userData: SignupProps) => {
+const signupUser = async (userData: SignupProps) => {
   try {
-    const response = await axios.post("/api/signup", userData);
+    const response = await axios.post("/api/user/signup", userData);
     return response.status;
   } catch (error) {
     return error;
@@ -50,7 +50,7 @@ const Signup = () => {
       setEmailError("");
       setPasswordError("");
       setUsernameError("");
-      signup(values).then((status: any) => {
+      signupUser(values).then((status: any) => {
         if (status === 201) {
           navigate("/home");
           setUser(true);
@@ -95,7 +95,7 @@ const Signup = () => {
                   name="email"
                   label="Email"
                   variant="filled"
-                  autoComplete="on"
+                  autoComplete="email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
                   error={
@@ -111,8 +111,8 @@ const Signup = () => {
                   name="password"
                   label="Password"
                   type="password"
-                  autoComplete="on"
                   variant="filled"
+                  autoComplete="password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   error={
@@ -129,7 +129,7 @@ const Signup = () => {
                   name="username"
                   label="Username"
                   variant="filled"
-                  autoComplete="on"
+                  autoComplete="username"
                   value={formik.values.username}
                   onChange={formik.handleChange}
                   error={

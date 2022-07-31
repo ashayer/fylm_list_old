@@ -3,7 +3,6 @@ export const handleError = (err: any) => {
 
   if (err.code === 11000) {
     errors.email = "Account already exists";
-    return errors;
   }
 
   if (err.message.includes("user validation failed")) {
