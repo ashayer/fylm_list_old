@@ -4,7 +4,12 @@ import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema(
   {
-    // auth data to store
+    username: {
+      type: String,
+      required: [true, "Username Required"],
+      unique: true,
+      validate: [validator.isAlphanumeric, "Invalid Username"],
+    },
     email: {
       type: String,
       required: [true, "Email Required"],
@@ -16,6 +21,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password Required "],
       minlength: [6, "Minimum password length is 6"],
+    },
+    movieLikes: {
+      type: [Number],
+    },
+    friendList: {
+      type: [mongoose.Types.ObjectId],
     },
   },
   {
