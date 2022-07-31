@@ -1,13 +1,28 @@
-import { Box, Card, CardMedia, Grid, Typography } from "@mui/material";
-import MoviesGrid from "../../components/MoviesGrid/MoviesGrid";
-import MovieCarousel from "../../components/MovieCarousel/MovieCarousel";
+import { Button } from "@mui/material";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import useStore from "../../store";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const user = useStore((state) => state.isUser);
+  const setUser = useStore((state) => state.setIsUser);
+
+  const onLogout = () => {
+    setUser(false);
+    navigate("/login");
+  };
+
+  useEffect(() => {
+    if (!user) navigate("/login");
+  });
   return (
-    <Box sx={{ border: "1px solid white" }}>
-      <MovieCarousel />
-      <MoviesGrid />
-    </Box>
+    <div>
+      <Button onClick={() => onLogout()} variant="contained">
+        LOGOUT
+      </Button>
+    </div>
   );
 };
 

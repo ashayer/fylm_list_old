@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
-
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
       MONGO_URI: string;
+      SECRET: string;
     }
   }
 }
