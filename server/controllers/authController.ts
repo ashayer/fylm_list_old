@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { handleError } from "../middleware/errorHandler.js";
 
-const maxAge = 3 * 24 * 60 * 60; // 3 days in milliseconds
+const maxAge = 3 * 24 * 60 * 60; // 3 days in seconds
 
 const createToken = (id: mongoose.Types.ObjectId) => {
   return jwt.sign({ id }, process.env.SECRET, {
@@ -28,9 +28,8 @@ export const loginUser = async (req: express.Request, res: express.Response) => 
 
 export const signupUser = async (req: express.Request, res: express.Response) => {
   const { email, password, username } = req.body;
-  console.log(email, password, username);
   try {
-    const user = await User.create({ email, password, username });
+    const user = await User.schema.methods.signup(email, password, username);
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
 

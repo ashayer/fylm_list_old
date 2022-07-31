@@ -35,13 +35,26 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-userSchema.pre("save", async function (next) {
+userSchema.methods.signup = async function (email: string, password: string, username: string) {
+  const existsEmail = await User.findOne({ email });
+  const existsUsername = await User.findOne({ username });
+
+  if (existsEmail) {
+    throw Error("Email already in use");
+  }
+
+  if (existsUsername) {
+    throw Error("Username unavailable");
+  }
+
   const salt = await bcrypt.genSalt();
 
-  this.password = await bcrypt.hash(this.password, salt);
+  const hash = await bcrypt.hash(password, salt);
 
-  next();
-});
+  const user = await User.create({ email, password, username });
+
+  return user;
+};
 
 userSchema.methods.login = async function (email: string, password: string) {
   const user = await User.findOne({ email });
