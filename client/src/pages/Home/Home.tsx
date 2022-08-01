@@ -21,8 +21,7 @@ const getPopularMovies = async ({ page }: { page: number }) => {
 const Home = () => {
   const navigate = useNavigate();
   const user = useStore((state) => state.isUser);
-  const [page, setPage] = useState<number>(1);
-  const [movieList, setMovieList] = useState<MoviePopular[]>(testData.slice(0, page * 20));
+  const [movieList, setMovieList] = useState<MoviePopular[]>(testData);
 
   useEffect(() => {
     if (!user) navigate("/login");

@@ -1,10 +1,12 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 import React from "react";
 import useStore from "../../store";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const user = useStore((state) => state.isUser);
   const username = useStore((state) => state.username);
+  const navigate = useNavigate();
 
   return (
     <Grid
@@ -19,7 +21,11 @@ const Navbar = () => {
       maxWidth="xl"
     >
       <Grid item>
-        <Typography variant="h2" sx={{ border: "1px solid red" }}>
+        <Typography
+          variant="h2"
+          sx={{ border: "1px solid red", cursor: "pointer" }}
+          onClick={() => navigate("/home")}
+        >
           <strong>FiLM LIST</strong>
         </Typography>
       </Grid>

@@ -10,7 +10,7 @@ export const getPopular = async (req: express.Request, res: express.Response) =>
 
   try {
     const movies = await axios.get(
-      `${movie_db_url}popular?api_key=${process.env.MOVIE_DB_API_KEY}&language=en-US&page=${page}`,
+      `${movie_db_url}popular?api_key=${process.env.MOVIE_DB_API_KEY}&page=${page}`,
     );
     res.status(200).json(movies.data);
   } catch (error) {
@@ -20,8 +20,13 @@ export const getPopular = async (req: express.Request, res: express.Response) =>
 
 export const getMovie = async (req: express.Request, res: express.Response) => {
   const { movieId } = req.params;
+
   try {
+    const movie = await axios.get(
+      `${movie_db_url}${movieId}?api_key=${process.env.MOVIE_DB_API_KEY}`,
+    );
+    res.status(200).json(movie.data);
   } catch (err) {
-    res.status(400).json({ err });
+    res.status(404).json({ err });
   }
 };
