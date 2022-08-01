@@ -3,7 +3,8 @@ import { devtools, persist } from "zustand/middleware";
 
 const store = (set: any) => ({
   isUser: false,
-  setIsUser: (user: boolean) => set({ isUser: user }),
+  username: "",
+  setIsUser: (user: boolean, username: string) => set({ isUser: user, username: username }),
 });
 
 const useStore = create(

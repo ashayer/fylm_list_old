@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
+import movieRoutes from "./routes/movieRoutes.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
@@ -22,6 +23,7 @@ app.use(cookieParser());
 //parses data with querystring library
 app.use(express.urlencoded({ extended: false }));
 app.use("/api/user", authRoutes);
+app.use("/api/movie", movieRoutes);
 
 //if in development use public index otherwise use build
 if (process.env.DEV === "true") {
