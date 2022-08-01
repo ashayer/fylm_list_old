@@ -10,7 +10,7 @@ const Navbar = () => {
     <Grid
       container
       sx={{
-        height: "10vh",
+        minHeight: "10vh",
         backgroundColor: "white",
         alignItems: "center",
         borderBottom: "10px solid #2B2A2A",

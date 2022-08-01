@@ -6,9 +6,11 @@ import axios from "axios";
 const movie_db_url = "https://api.themoviedb.org/3/movie/";
 
 export const getPopular = async (req: express.Request, res: express.Response) => {
+  const { page } = req.params;
+
   try {
     const movies = await axios.get(
-      `${movie_db_url}popular?api_key=c303ff8ec6840f1f46c431eabcfe2712&language=en-US&page=1`,
+      `${movie_db_url}popular?api_key=${process.env.MOVIE_DB_API_KEY}&language=en-US&page=${page}`,
     );
     res.status(200).json(movies.data);
   } catch (error) {

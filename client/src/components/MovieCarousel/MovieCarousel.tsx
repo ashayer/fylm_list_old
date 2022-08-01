@@ -4,11 +4,11 @@ import { useState } from "react";
 const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
   const [index, setIndex] = useState(0);
   return (
-    <Grid container sx={{ backgroundColor: "white", mt: "1rem", justifyContent: "center" }}>
+    <Grid container sx={{ backgroundColor: "white", mt: 1, justifyContent: "center" }}>
       <Grid item>
         <Typography variant="h2">Trending Now</Typography>
       </Grid>
-      <Grid container sx={{ justifyContent: "center" }}>
+      <Grid container sx={{ justifyContent: "center", mt: 1 }}>
         <Grid item>
           <Button
             variant="contained"
@@ -41,15 +41,14 @@ const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
         </Grid>
 
         <Grid item>
-          <Button
-            variant="contained"
+          <div
             onClick={() => {
               index < movieList.length - 1 ? setIndex(index + 1) : setIndex(0);
             }}
-            sx={{ height: "50vh" }}
+            style={{ height: "50vh", backgroundColor: "transparent", border: "none" }}
           >
             Next
-          </Button>
+          </div>
         </Grid>
       </Grid>
     </Grid>

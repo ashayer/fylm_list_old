@@ -7,13 +7,16 @@ declare global {
   interface MoviePopular {
     adult: boolean;
     backdrop_path: string;
-    genres: Genre[];
+    genre_ids: number[];
     id: number;
     overview: string;
+    original_title: string;
+    original_language: string;
     popularity: number;
     poster_path: string;
-    release_date: Date;
+    release_date: string;
     title: string;
+    video: boolean;
     vote_average: number;
     vote_count: number;
   }
