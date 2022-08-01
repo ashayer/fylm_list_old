@@ -22,7 +22,7 @@ type loginProps = {
 const loginUser = async (userData: loginProps) => {
   try {
     const response = await axios.post("/api/user/login", userData);
-    return response.status;
+    return response;
   } catch (error) {
     return error;
   }
@@ -49,13 +49,14 @@ const Login = () => {
     onSubmit: (values) => {
       setEmailError("");
       setPasswordError("");
-      loginUser(values).then((status: any) => {
-        if (status === 200) {
-          setUser(true);
+      loginUser(values).then((response: any) => {
+        console.log(response);
+        if (response.status === 200) {
+          setUser(true, response.data.username);
           navigate("/home");
         } else {
-          setEmailError(status.response.data.errors.email);
-          setPasswordError(status.response.data.errors.password);
+          setEmailError(response.data.errors.email);
+          setPasswordError(response.data.errors.password);
         }
       });
     },

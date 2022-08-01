@@ -10,7 +10,7 @@ import useStore from "../../store";
 const LandingPage = () => {
   const navigate = useNavigate();
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const user = useStore((state) => state.isUser);
@@ -26,16 +26,16 @@ const LandingPage = () => {
       sx={{
         height: "100vh",
         backgroundColor: "#FFFFFF",
-        ml: 15,
         borderRight: "10px solid #2B2A2A",
         borderLeft: "10px solid #2B2A2A",
         alignItems: "center",
+        marginInline: "auto",
       }}
-      maxWidth="sm"
+      maxWidth="md"
     >
       <Grid item>
         <Typography variant="h1" sx={{ mt: 4 }}>
-          <strong>FILM LIST</strong>
+          <strong>FYLM LIST</strong>
         </Typography>
       </Grid>
       <Grid item sx={{ fontSize: "85px", mt: 3 }}>

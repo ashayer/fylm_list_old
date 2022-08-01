@@ -24,7 +24,7 @@ type SignupProps = {
 const signupUser = async (userData: SignupProps) => {
   try {
     const response = await axios.post("/api/user/signup", userData);
-    return response.status;
+    return response;
   } catch (error) {
     return error;
   }
@@ -50,14 +50,16 @@ const Signup = () => {
       setEmailError("");
       setPasswordError("");
       setUsernameError("");
-      signupUser(values).then((status: any) => {
-        if (status === 201) {
+      signupUser(values).then((response: any) => {
+        console.log(response);
+
+        if (response.status === 201) {
           navigate("/home");
-          setUser(true);
+          setUser(true, response.data.username);
         } else {
-          setEmailError(status.response.data.errors.email);
-          setPasswordError(status.response.data.errors.password);
-          setUsernameError(status.response.data.errors.username);
+          setEmailError(response.data.errors.email);
+          setPasswordError(response.data.errors.password);
+          setUsernameError(response.data.errors.username);
         }
       });
     },
