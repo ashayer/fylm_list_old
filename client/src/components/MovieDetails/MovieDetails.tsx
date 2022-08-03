@@ -19,13 +19,21 @@ const getMovieDetails = async (movieId: any) => {
   }
 };
 
+const getMovieCast = async (movieId: any) => {
+  try {
+    const response = await axios.get(`/api/movie/getCast/${movieId}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const MovieDetails = ({ movieData }: any) => {
   let { movieId }: any = useParams();
 
-  const minLength = Math.min(tempCast.length, 10);
-  const [movieDetails, setMovieDetails] = useState<MovieDetails>(tempMovieDetail);
+  const [movieDetails, setMovieDetails] = useState<MovieDetails>();
 
-  const [castDetails, setCastDetails] = useState<CastDetails[]>(tempCast.slice(0, minLength));
+  const [castDetails, setCastDetails] = useState<CastDetails[]>();
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -37,15 +45,18 @@ const MovieDetails = ({ movieData }: any) => {
   });
 
   useEffect(() => {
-    // getMovieDetails(movieId).then((details: any) => {
-    //   setMovieDetails(details);
-    //   console.log(details);
-    // });
+    getMovieDetails(movieId).then((details: any) => {
+      setMovieDetails(details);
+    });
+    getMovieCast(movieId).then((castList: any) => {
+      const minLength = Math.min(castList.length, 10);
+      setCastDetails(castList.slice(0, minLength));
+    });
   }, [movieId]);
 
   return (
     <Box>
-      {movieDetails && (
+      {movieDetails && castDetails && (
         <Grid container sx={{ width: "80vw", marginInline: "auto" }}>
           <Grid
             item
@@ -69,7 +80,7 @@ const MovieDetails = ({ movieData }: any) => {
               </Typography>
             </Grid>
 
-            <Grid item sx={{}}>
+            <Grid item>
               <Stack direction="row">
                 <Chip
                   label="PG-13"
@@ -150,7 +161,7 @@ const MovieDetails = ({ movieData }: any) => {
               </Grid>
             </Grid>
             <Grid item sx={{ pt: 1, pb: 2 }}>
-              <Typography variant="body1">
+              <Typography variant="h6">
                 <strong>{movieDetails.overview}</strong>
               </Typography>
             </Grid>
@@ -205,7 +216,7 @@ const MovieDetails = ({ movieData }: any) => {
               }}
             >
               {castDetails.map((castMember: CastDetails) => {
-                return <CastCard castMember={castMember} />;
+                return <CastCard key={castMember.id} castMember={castMember} />;
               })}
             </Grid>
           </Grid>
