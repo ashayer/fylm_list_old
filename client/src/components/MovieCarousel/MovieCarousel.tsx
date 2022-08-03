@@ -1,9 +1,9 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Rating, Typography } from "@mui/material";
 import { useState } from "react";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import { useNavigate } from "react-router-dom";
-
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
   const navigate = useNavigate();
   const [index, setIndex] = useState(0);
@@ -44,10 +44,8 @@ const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
               color: "white",
               justifyContent: "end",
               borderRadius: "10px",
-              cursor: "pointer",
             }}
             height="50vh"
-            onClick={() => navigate(`/movie/${movieList[index].id}}`)}
           >
             <Grid
               container
@@ -62,9 +60,27 @@ const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
               }}
             >
               <Grid item>
-                <Typography variant="h3" gutterBottom>
-                  {movieList[index].title}
+                <Typography
+                  variant="h3"
+                  sx={{
+                    cursor: "pointer",
+                    textDecoration: "underline 0.1em rgba(255, 255, 255, 0)",
+                    "&:hover": {
+                      textDecorationColor: "rgba(255, 255, 255, 1)",
+                    },
+                    transition: "all 0.3s ease",
+                  }}
+                  onClick={() => navigate(`/movie/${movieList[index].id}}`)}
+                >
+                  {movieList[index].title} <OpenInNewIcon fontSize="small" />
                 </Typography>
+                <Rating
+                  size="large"
+                  name="read-only"
+                  value={parseFloat((movieList[index].vote_average / 2).toFixed(1))}
+                  precision={0.5}
+                  readOnly
+                />
               </Grid>
               <Grid item>
                 <Typography
@@ -74,6 +90,7 @@ const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
                 >
                   {movieList[index].overview}
                 </Typography>
+                {movieList[index].release_date}
               </Grid>
             </Grid>
           </Grid>

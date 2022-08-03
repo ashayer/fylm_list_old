@@ -2,7 +2,7 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import React from "react";
 import useStore from "../../store";
 import { useNavigate } from "react-router-dom";
-
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
 const Navbar = () => {
   const user = useStore((state) => state.isUser);
   const username = useStore((state) => state.username);
@@ -20,7 +20,7 @@ const Navbar = () => {
       }}
       maxWidth="xl"
     >
-      <Grid item>
+      <Grid item sx={{ flexGrow: 1 }}>
         <Typography
           variant="h2"
           sx={{ border: "1px solid red", cursor: "pointer" }}
@@ -30,12 +30,24 @@ const Navbar = () => {
         </Typography>
       </Grid>
       {user && (
-        <Grid item>
-          <Typography variant="h4" onClick={() => navigate(`/user/${username}`)}>
-            {username}
-          </Typography>
-          <Button variant="contained">Log Out</Button>
-        </Grid>
+        <>
+          <Grid
+            item
+            sx={{
+              mr: 5,
+              fontSize: "50px",
+              display: "flex",
+              alignItems: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            <Typography variant="h4">{username}</Typography>
+            <AccountBoxIcon fontSize="inherit" onClick={() => navigate(`/user/${username}`)} />
+          </Grid>
+          <Grid item>
+            <Button variant="contained">Log Out</Button>
+          </Grid>
+        </>
       )}
       {!user && (
         <Grid item>
