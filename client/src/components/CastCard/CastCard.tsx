@@ -1,14 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-type MovieCardProps = {
-  title: string;
-  release_date: string;
-  posterpath: string;
-  id: number;
-};
-
-const MovieCard = ({ title, release_date, posterpath, id }: MovieCardProps) => {
+const CastCard = ({ castMember }: { castMember: CastDetails }) => {
   const navigate = useNavigate();
 
   return (
@@ -28,29 +21,25 @@ const MovieCard = ({ title, release_date, posterpath, id }: MovieCardProps) => {
         transition: "all 0.1s ease",
         p: 1,
       }}
-      onClick={() => navigate(`/movie/${id}`)}
       width="200px"
     >
       <Grid
         item
         sx={{
-          backgroundImage: `url(https://image.tmdb.org/t/p/w200/${posterpath})`,
+          backgroundImage: `url(https://image.tmdb.org/t/p/w200/${castMember.profile_path})`,
           borderRadius: "10px",
         }}
         height="300px"
         width="200px"
       ></Grid>
       <Typography variant="body1" sx={{ width: "100%" }} gutterBottom>
-        <strong>{title}</strong>
-      </Typography>
-      <Typography variant="body1" sx={{ width: "100%" }} gutterBottom>
-        <strong>{release_date}</strong>
+        <strong>{castMember.name}</strong>
       </Typography>
     </Grid>
   );
 };
 
-export default MovieCard;
+export default CastCard;
 
 // sx={{
 //   backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieList[index].backdrop_path})`,

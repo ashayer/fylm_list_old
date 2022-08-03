@@ -3,15 +3,13 @@ import { useState } from "react";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import { useNavigate } from "react-router-dom";
+
 const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
   const navigate = useNavigate();
   const [index, setIndex] = useState(0);
 
   return (
-    <Grid
-      container
-      sx={{ backgroundColor: "white", mt: 1, justifyContent: "center", border: "1px solid red" }}
-    >
+    <Grid container sx={{ backgroundColor: "white", mt: 1, mb: 5, justifyContent: "center" }}>
       <Grid item>
         <Typography variant="h2">Trending Now</Typography>
       </Grid>
@@ -23,8 +21,11 @@ const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
               index > 0 ? setIndex(index - 1) : setIndex(movieList.length - 1);
             }}
             sx={{
-              height: "100%",
-              alignContent: "center",
+              "&:hover": {
+                transform: "scale(1.5)",
+                transition: "all 0.1s ease",
+                color: "lightblue",
+              },
             }}
           >
             <ChevronLeftRoundedIcon sx={{ fontSize: "50px", cursor: "pointer" }} />
@@ -36,14 +37,17 @@ const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
             container
             direction="column"
             sx={{
-              backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieList[index].backdrop_path})`,
+              backgroundImage: `url(https://image.tmdb.org/t/p/original${movieList[index].backdrop_path})`,
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
               backgroundSize: "cover",
               color: "white",
               justifyContent: "end",
+              borderRadius: "10px",
+              cursor: "pointer",
             }}
             height="50vh"
+            onClick={() => navigate(`/movie/${movieList[index].id}}`)}
           >
             <Grid
               container
@@ -52,8 +56,9 @@ const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
                   "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.5), rgba(0,0,0,0.75), rgba(0,0,0,1))",
                 pl: 5,
                 pr: 5,
-                pb: 10,
+                pb: 8,
                 maxHeight: "50vh",
+                borderRadius: "10px",
               }}
             >
               <Grid item>
@@ -63,7 +68,7 @@ const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
               </Grid>
               <Grid item>
                 <Typography
-                  variant="body1"
+                  variant="h6"
                   sx={{ textOverflow: "ellipsis", whiteSpace: "normal" }}
                   gutterBottom
                 >
@@ -79,7 +84,13 @@ const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
             onClick={() => {
               index < movieList.length - 1 ? setIndex(index + 1) : setIndex(0);
             }}
-            sx={{ height: "100%" }}
+            sx={{
+              "&:hover": {
+                transform: "scale(1.5)",
+                transition: "all 0.1s ease",
+                color: "lightblue",
+              },
+            }}
           >
             <ChevronRightRoundedIcon sx={{ fontSize: "50px", cursor: "pointer" }} />
           </Box>
