@@ -7,6 +7,7 @@ import Signup from "./pages/Signup/Signup";
 import "@fontsource/manrope";
 import Home from "./pages/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
+import AccountPage from "./pages/AccountPage/AccountPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Home />} />
         <Route path="/movie/:movieId" element={<MovieDetails />} />
+        <Route path="/user/:username" element={<AccountPage />} />
         <Route path="*" element={<h1>404 not found</h1>} />
       </Routes>
     </BrowserRouter>

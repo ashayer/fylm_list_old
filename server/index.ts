@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import movieRoutes from "./routes/movieRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use("/api/user", authRoutes);
 app.use("/api/movie", movieRoutes);
+app.use("/api/user", userRoutes);
 
 //if in development use public index otherwise use build
 if (process.env.DEV === "true") {

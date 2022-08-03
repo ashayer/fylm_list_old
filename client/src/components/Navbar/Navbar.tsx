@@ -31,7 +31,9 @@ const Navbar = () => {
       </Grid>
       {user && (
         <Grid item>
-          <Typography variant="h4">{username}</Typography>
+          <Typography variant="h4" onClick={() => navigate(`/user/${username}`)}>
+            {username}
+          </Typography>
           <Button variant="contained">Log Out</Button>
         </Grid>
       )}
