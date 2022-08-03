@@ -10,15 +10,7 @@ const CastCard = ({ castMember }: { castMember: CastDetails }) => {
       item
       sx={{
         borderRadius: "10px",
-        justifyContent: "center",
-        cursor: "pointer",
-        direction: "column",
-        alignItems: "start",
         textAlign: "center",
-        "&:hover": {
-          transform: "scale(0.95)",
-        },
-        transition: "all 0.1s ease",
         p: 1,
       }}
       width="200px"
@@ -31,7 +23,7 @@ const CastCard = ({ castMember }: { castMember: CastDetails }) => {
         }}
         height="300px"
         width="200px"
-      ></Grid>
+      />
       <Typography variant="body1" sx={{ width: "100%" }} gutterBottom>
         <strong>{castMember.name}</strong>
       </Typography>

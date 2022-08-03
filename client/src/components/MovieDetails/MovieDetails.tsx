@@ -22,7 +22,7 @@ const getMovieDetails = async (movieId: any) => {
 const MovieDetails = ({ movieData }: any) => {
   let { movieId }: any = useParams();
 
-  const minLength = Math.min(tempCast.length, 8);
+  const minLength = Math.min(tempCast.length, 10);
   const [movieDetails, setMovieDetails] = useState<MovieDetails>(tempMovieDetail);
 
   const [castDetails, setCastDetails] = useState<CastDetails[]>(tempCast.slice(0, minLength));
@@ -195,7 +195,15 @@ const MovieDetails = ({ movieData }: any) => {
                 <strong>CAST</strong>
               </Typography>
             </Grid>
-            <Grid item container>
+            <Grid
+              item
+              sx={{
+                marginTop: 1,
+                overflowX: "scroll",
+                flexDirection: "row",
+                display: "flex",
+              }}
+            >
               {castDetails.map((castMember: CastDetails) => {
                 return <CastCard castMember={castMember} />;
               })}
