@@ -16,7 +16,6 @@ const MovieGrid = ({ movieList }: { movieList: MoviePopular[] }) => {
       sx={{
         marginInline: "auto",
         justifyContent: "space-evenly",
-        border: "1px solid red",
       }}
       lg={10}
       md={12}
