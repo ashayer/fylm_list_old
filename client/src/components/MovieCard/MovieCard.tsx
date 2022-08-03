@@ -16,29 +16,46 @@ const MovieCard = ({ title, release_date, posterpath, id }: MovieCardProps) => {
       container
       item
       sx={{
-        border: "1px solid white",
         borderRadius: "10px",
-        width: "160px",
         justifyContent: "center",
         cursor: "pointer",
-        m: 1,
-        "&:hover": { backgroundColor: "white" },
+        direction: "column",
+        alignItems: "start",
+        textAlign: "center",
+        "&:hover": {
+          transform: "scale(0.95)",
+        },
+        transition: "all 0.1s ease",
       }}
       onClick={() => navigate(`/movie/${id}`)}
+      width="200px"
     >
-      <Box
-        component="img"
-        src={`https://image.tmdb.org/t/p/w200/${posterpath}`}
-        sx={{ height: 210, width: 140 }}
-      />
-      <Typography variant="body1" sx={{ p: 1 }}>
-        {release_date}
+      <Grid
+        item
+        sx={{
+          backgroundImage: `url(https://image.tmdb.org/t/p/w200/${posterpath})`,
+          borderRadius: "10px",
+        }}
+        height="300px"
+        width="200px"
+      ></Grid>
+      <Typography variant="body1" sx={{ width: "100%" }} gutterBottom>
+        <strong>{title}</strong>
       </Typography>
-      <Typography variant="body1" sx={{ p: 1 }}>
-        {title}
+      <Typography variant="body1" sx={{ width: "100%" }} gutterBottom>
+        <strong>{release_date}</strong>
       </Typography>
     </Grid>
   );
 };
 
 export default MovieCard;
+
+// sx={{
+//   backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieList[index].backdrop_path})`,
+//   backgroundRepeat: "no-repeat",
+//   backgroundPosition: "center",
+//   backgroundSize: "cover",
+//   color: "white",
+//   justifyContent: "end",
+// }}

@@ -10,7 +10,17 @@ const MovieGrid = ({ movieList }: { movieList: MoviePopular[] }) => {
     //   hasMore={true}
     //   loader={<h4>Loading...</h4>}
     // >
-    <Grid container sx={{ justifyContent: "flex-start", width: "80vw", border: "4px solid red" }}>
+    <Grid
+      container
+      item
+      sx={{
+        marginInline: "auto",
+        justifyContent: "space-evenly",
+        border: "1px solid red",
+      }}
+      lg={10}
+      md={12}
+    >
       {movieList.map((movie: any) => {
         return (
           <MovieCard

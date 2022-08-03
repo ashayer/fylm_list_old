@@ -8,7 +8,10 @@ const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
   const [index, setIndex] = useState(0);
 
   return (
-    <Grid container sx={{ backgroundColor: "white", mt: 1, justifyContent: "center" }}>
+    <Grid
+      container
+      sx={{ backgroundColor: "white", mt: 1, justifyContent: "center", border: "1px solid red" }}
+    >
       <Grid item>
         <Typography variant="h2">Trending Now</Typography>
       </Grid>
