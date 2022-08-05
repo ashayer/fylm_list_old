@@ -20,16 +20,8 @@ const MovieGrid = ({ movieList }: { movieList: MoviePopular[] }) => {
       lg={10}
       md={12}
     >
-      {movieList.map((movie: any) => {
-        return (
-          <MovieCard
-            key={movie.id}
-            title={movie.title}
-            release_date={movie.release_date}
-            posterpath={movie.poster_path}
-            id={movie.id}
-          />
-        );
+      {movieList.map((movie: MoviePopular) => {
+        return <MovieCard movieDetails={movie} key={movie.id} />;
       })}
     </Grid>
     //</InfiniteScroll>
