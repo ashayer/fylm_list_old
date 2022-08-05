@@ -5,7 +5,7 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import TheatersIcon from "@mui/icons-material/Theaters";
 import Signup from "../Signup/Signup";
-import useStore from "../../store";
+import useStore from "../../stores/authStore";
 
 const LandingPage = () => {
   const navigate = useNavigate();

@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { Box, Button, Container, TextField, Paper, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import useStore from "../../store";
+import useStore from "../../stores/authStore";
 
 const validationSchema = yup.object({
   email: yup.string().email("Enter a valid email").required("Email is required"),
@@ -55,7 +55,7 @@ const Signup = () => {
 
         if (response.status === 201) {
           navigate("/home");
-          setUser(true, response.data.username);
+          setUser(true, response.data.username, response.data.id);
         } else {
           setEmailError(response.data.errors.email);
           setPasswordError(response.data.errors.password);

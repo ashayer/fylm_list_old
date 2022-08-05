@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { Box, Button, Container, Grow, TextField, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import useStore from "../../store";
+import useAuthStore from "../../stores/authStore";
 
 const validationSchema = yup.object({
   email: yup.string().email("Enter a valid email").required("Email is required"),
@@ -29,8 +29,9 @@ const loginUser = async (userData: loginProps) => {
 };
 
 const Login = () => {
-  const user = useStore((state) => state.isUser);
-  const setUser = useStore((state) => state.setIsUser);
+  const user = useAuthStore((state) => state.isUser);
+  const setUser = useAuthStore((state) => state.setIsUser);
+
   const navigate = useNavigate();
 
   const [emailError, setEmailError] = useState("");
@@ -52,7 +53,7 @@ const Login = () => {
       loginUser(values).then((response: any) => {
         console.log(response);
         if (response.status === 200) {
-          setUser(true, response.data.username);
+          setUser(true, response.data.username, response.data.id);
           navigate("/home");
         } else {
           setEmailError(response.data.errors.email);

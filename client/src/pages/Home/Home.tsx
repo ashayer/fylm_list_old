@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieCarousel from "../../components/MovieCarousel/MovieCarousel";
 import MovieGrid from "../../components/MoviesGrid/MoviesGrid";
-import useStore from "../../store";
+import useStore from "../../stores/authStore";
 import testData from "./temp";
 
 //! remove comment for function call
