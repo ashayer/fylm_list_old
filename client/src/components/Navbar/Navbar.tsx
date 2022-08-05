@@ -1,12 +1,11 @@
 import { Box, Button, Grid, IconButton, Link, Typography } from "@mui/material";
-import React from "react";
-import useStore from "../../stores/authStore";
+import useAuthStore from "../../stores/authStore";
 import { useNavigate } from "react-router-dom";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import styles from "./navbarStyles";
 const Navbar = () => {
-  const user = useStore((state) => state.isUser);
-  const username = useStore((state) => state.username);
+  const user = useAuthStore((state) => state.isUser);
+  const username = useAuthStore((state) => state.username);
   const navigate = useNavigate();
 
   return (
