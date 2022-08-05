@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  getUserLikes,
+  getUserMovieLikes,
   likeMovie,
   getUserFriends,
   addFriend,
@@ -8,9 +8,9 @@ import {
 
 const router = express.Router();
 
-router.get("/:userId/movieLikes", getUserLikes);
-router.get("/:userId/likeMovie", likeMovie);
+router.get("/getUserMovieLikes/:userId", getUserMovieLikes);
+router.patch("/likeMovie/:userId", likeMovie);
 router.get("/:userId/getFriends", getUserFriends);
-router.get("/:userId/addFriend", addFriend);
+router.patch("/:userId/addFriend", addFriend);
 
 export default router;

@@ -1,14 +1,18 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { ConstructionOutlined } from "@mui/icons-material";
 import { tempMovieDetail } from "./tempDetails";
 import { tempCast } from "./tempCast";
 import Rating from "@mui/material/Rating";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import CastCard from "../CastCard/CastCard";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import useUserStore from "../../stores/userStore";
+import produce from "immer";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import useAuthStore from "../../stores/authStore";
 
 const getMovieDetails = async (movieId: any) => {
   try {
@@ -30,34 +34,60 @@ const getMovieCast = async (movieId: any) => {
 
 const MovieDetails = ({ movieData }: any) => {
   let { movieId }: any = useParams();
+  const userId = useAuthStore((state) => state.id);
+  const userMovieLikes = useUserStore((state) => state.userMovieLikes);
+  const setUserMovieLikes = useUserStore((state) => state.setUserMovieLikes);
+  const [movieDetails, setMovieDetails] = useState<MovieDetails>(tempMovieDetail);
+  const [castDetails, setCastDetails] = useState<CastDetails[]>(tempCast);
+  const [movieIsLiked, setMovieIsLiked] = useState<boolean>(false);
 
-  const [movieDetails, setMovieDetails] = useState<MovieDetails>();
+  const addMovieToLikedList = () => {
+    const addedMovieList = produce<any>(userMovieLikes, (draft) => {
+      draft.push(movieId);
+    });
+    setUserMovieLikes(addedMovieList);
+    setMovieIsLiked(!movieIsLiked);
+    updateUserMovieLikes(addedMovieList);
+  };
 
-  const [castDetails, setCastDetails] = useState<CastDetails[]>();
+  const removeMovieFromLikedList = () => {
+    const removedMovieList = produce<any>(userMovieLikes, (draft) => {
+      const index = draft.findIndex((id: string) => id === movieId);
+      if (index !== -1) draft.splice(index, 1);
+    });
+    setUserMovieLikes(removedMovieList);
+    setMovieIsLiked(!movieIsLiked);
+    updateUserMovieLikes(removedMovieList);
+  };
 
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
+  const checkIfMovieIsLiked: any = () => {
+    const isLiked = userMovieLikes.includes(movieId as never);
+    setMovieIsLiked(isLiked);
+  };
 
-    // These options are needed to round to whole numbers if that's what you want.
-    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-  });
+  const updateUserMovieLikes = async (updatedMovieList: any) => {
+    try {
+      const update = await axios.patch(`/api/user/likeMovie/${userId}`, { updatedMovieList });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    getMovieDetails(movieId).then((details: any) => {
-      setMovieDetails(details);
-    });
-    getMovieCast(movieId).then((castList: any) => {
-      const minLength = Math.min(castList.length, 10);
-      setCastDetails(castList.slice(0, minLength));
-    });
+    // getMovieDetails(movieId).then((details: any) => {
+    //   setMovieDetails(details);
+    // });
+    // getMovieCast(movieId).then((castList: any) => {
+    //   const minLength = Math.min(castList.length, 10);
+    //   setCastDetails(castList.slice(0, minLength));
+    // });
+    checkIfMovieIsLiked();
   }, [movieId]);
 
   return (
     <Box>
       {movieDetails && castDetails && (
-        <Grid container sx={{ width: "80vw", marginInline: "auto" }}>
+        <Grid item container sx={{ width: "80vw", marginInline: "auto" }}>
           <Grid
             item
             sx={{
@@ -66,20 +96,30 @@ const MovieDetails = ({ movieData }: any) => {
               backgroundPosition: "center",
               backgroundSize: "cover",
               borderRadius: "10px",
-
+              mr: 1,
               mt: 5,
             }}
             height="375px"
             width="250px"
           />
 
-          <Grid item container direction="column" sx={{ p: 5 }} xs={8}>
+          <Grid item container direction="column" xs={8}>
             <Grid item sx={{}}>
               <Typography variant="h3">
                 <strong>{movieDetails.title} (2022)</strong>
               </Typography>
             </Grid>
-
+            <Grid item>
+              {movieIsLiked ? (
+                <IconButton sx={{ color: "red" }} onClick={removeMovieFromLikedList}>
+                  <FavoriteIcon />
+                </IconButton>
+              ) : (
+                <IconButton sx={{ color: "black" }} onClick={addMovieToLikedList}>
+                  <FavoriteBorderIcon />
+                </IconButton>
+              )}
+            </Grid>
             <Grid item>
               <Stack direction="row">
                 <Chip
@@ -131,8 +171,7 @@ const MovieDetails = ({ movieData }: any) => {
               item
               container
               sx={{
-                pt: 1,
-                pb: 1,
+                p: 1,
                 justifyContent: "space-between",
                 alignItems: "end",
                 borderBottom: "1px solid black",
@@ -174,6 +213,7 @@ const MovieDetails = ({ movieData }: any) => {
             xs={2}
             spacing={5}
             sx={{ p: 5, textAlign: "center" }}
+            order={{ xs: 1, sm: 0 }}
           >
             <Grid item>
               <Typography sx={{}} variant="h5">
@@ -189,14 +229,6 @@ const MovieDetails = ({ movieData }: any) => {
               </Typography>
               <Typography sx={{}} variant="h5">
                 {movieDetails.release_date}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography sx={{}} variant="h5">
-                <strong>BUDGET</strong>
-              </Typography>
-              <Typography sx={{}} variant="h5">
-                {formatter.format(movieDetails.budget)}
               </Typography>
             </Grid>
           </Grid>
