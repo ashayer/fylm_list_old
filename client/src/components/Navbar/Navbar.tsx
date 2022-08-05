@@ -9,7 +9,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <Grid container sx={{ ...styles.navBarContainer }} maxWidth="xl">
+    <Grid item container sx={{ ...styles.navBarContainer }} xs={11}>
       <Grid item sx={{ flexGrow: 1 }}>
         <Link component="button" underline="none" onClick={() => navigate("/home")}>
           <Typography variant="h2">

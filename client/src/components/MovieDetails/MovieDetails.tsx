@@ -2,18 +2,14 @@ import { Box, Grid, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { tempMovieDetail } from "./tempDetails";
-import { tempCast } from "./tempCast";
-import Rating from "@mui/material/Rating";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import CastCard from "../CastCard/CastCard";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import useUserStore from "../../stores/userStore";
 import produce from "immer";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import useAuthStore from "../../stores/authStore";
-import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import MovieDetailsOverview from "./MovieDetailsOverview";
+import MovieDetailsPoster from "./MovieDetailsPoster";
 
 const getMovieDetails = async (movieId: string) => {
   const response = await axios.get(`/api/movie/getMovie/${movieId}`);
@@ -45,7 +41,7 @@ const MovieDetails = ({ movieData }: any) => {
     },
   );
   const [movieIsLiked, setMovieIsLiked] = useState<boolean>(false);
-
+  const [castLength, setCastLength] = useState<number>(15);
   const addMovieToLikedList = () => {
     const addedMovieList = produce<any>(userMovieLikes, (draft) => {
       draft.push(movieId);
@@ -78,158 +74,25 @@ const MovieDetails = ({ movieData }: any) => {
     }
   };
 
+  const loadMoreCast = () => {
+    setCastLength((old) => old + 10);
+  };
+
   useEffect(() => {
     checkIfMovieIsLiked();
-  }, []);
+  });
 
   return (
     <Box>
       {movieSuccess && castSuccess && (
-        <Grid item container sx={{ width: "80vw", marginInline: "auto" }}>
-          <Grid
-            item
-            sx={{
-              backgroundImage: `url(https://image.tmdb.org/t/p/w500${movieDetails.poster_path})`,
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-              borderRadius: "10px",
-              mr: 1,
-              mt: 5,
-            }}
-            height="375px"
-            width="250px"
+        <Grid item container sx={{ marginInline: "auto", mt: 5 }} xs={11} lg={10}>
+          <MovieDetailsPoster
+            movieDetails={movieDetails}
+            movieIsLiked={movieIsLiked}
+            removeMovieFromLikedList={removeMovieFromLikedList}
+            addMovieToLikedList={addMovieToLikedList}
           />
-
-          <Grid item container direction="column" xs={8}>
-            <Grid item sx={{}}>
-              <Typography variant="h3">
-                <strong>{movieDetails.title} (2022)</strong>
-              </Typography>
-            </Grid>
-            <Grid item>
-              {movieIsLiked ? (
-                <IconButton sx={{ color: "red" }} onClick={removeMovieFromLikedList}>
-                  <FavoriteIcon />
-                </IconButton>
-              ) : (
-                <IconButton sx={{ color: "black" }} onClick={addMovieToLikedList}>
-                  <FavoriteBorderIcon />
-                </IconButton>
-              )}
-            </Grid>
-            <Grid item>
-              <Stack direction="row">
-                <Chip
-                  label="PG-13"
-                  sx={{
-                    backgroundColor: "black",
-                    fontWeight: "bold",
-                    fontSize: "18px",
-                    borderRadius: "5px",
-                    m: 1,
-                  }}
-                />
-                <Chip
-                  label="Adventure"
-                  sx={{
-                    backgroundColor: "#E8E8E8",
-                    color: "black",
-                    borderRadius: "5px",
-                    m: 1,
-                    fontWeight: "bold",
-                    fontSize: "18px",
-                  }}
-                />
-                <Chip
-                  label="Action"
-                  sx={{
-                    backgroundColor: "#E8E8E8",
-                    color: "black",
-                    borderRadius: "5px",
-                    m: 1,
-                    fontWeight: "bold",
-                    fontSize: "18px",
-                  }}
-                />
-                <Chip
-                  label="Fantasy"
-                  sx={{
-                    backgroundColor: "#E8E8E8",
-                    color: "black",
-                    borderRadius: "5px",
-                    m: 1,
-                    fontWeight: "bold",
-                    fontSize: "18px",
-                  }}
-                />
-              </Stack>
-            </Grid>
-            <Grid
-              item
-              container
-              sx={{
-                p: 1,
-                justifyContent: "space-between",
-                alignItems: "end",
-                borderBottom: "1px solid black",
-              }}
-            >
-              <Grid item sx={{ flexGrow: 1, pt: 1, pb: 1 }}>
-                <Typography variant="h4">
-                  <strong>Synopsis</strong>
-                </Typography>
-              </Grid>
-
-              <Grid item sx={{ p: 1 }}>
-                <Typography variant="h4">
-                  {(movieDetails.vote_average / 2).toFixed(1)} out of 5
-                </Typography>
-              </Grid>
-
-              <Grid item sx={{ p: 1 }}>
-                <Rating
-                  size="large"
-                  name="read-only"
-                  value={parseFloat((movieDetails.vote_average / 2).toFixed(1))}
-                  precision={0.5}
-                  readOnly
-                />
-              </Grid>
-            </Grid>
-            <Grid item sx={{ pt: 1, pb: 2 }}>
-              <Typography variant="h6">
-                <strong>{movieDetails.overview}</strong>
-              </Typography>
-            </Grid>
-          </Grid>
-
-          <Grid
-            item
-            container
-            direction="column"
-            xs={2}
-            spacing={5}
-            sx={{ p: 5, textAlign: "center" }}
-            order={{ xs: 1, sm: 0 }}
-          >
-            <Grid item>
-              <Typography sx={{}} variant="h5">
-                <strong>RUNTIME</strong>
-              </Typography>
-              <Typography sx={{}} variant="h5">
-                {movieDetails.runtime}m
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography sx={{}} variant="h5">
-                <strong>RELEASE DATE</strong>
-              </Typography>
-              <Typography sx={{}} variant="h5">
-                {movieDetails.release_date}
-              </Typography>
-            </Grid>
-          </Grid>
+          <MovieDetailsOverview movieDetails={movieDetails} />
           <Grid container sx={{ mt: 5 }}>
             <Grid item sx={{ borderBottom: "1px solid black" }}>
               <Typography variant="h3" sx={{ width: "80vw" }}>
@@ -245,9 +108,15 @@ const MovieDetails = ({ movieData }: any) => {
                 display: "flex",
               }}
             >
-              {castDetails.map((castMember: CastDetails) => {
+              {castDetails.slice(0, castLength).map((castMember: CastDetails) => {
                 return <CastCard key={castMember.id} castMember={castMember} />;
               })}
+              <IconButton
+                sx={{ borderRadius: "0px", width: "20px" }}
+                onClick={() => loadMoreCast()}
+              >
+                <KeyboardDoubleArrowRightIcon />
+              </IconButton>
             </Grid>
           </Grid>
         </Grid>
