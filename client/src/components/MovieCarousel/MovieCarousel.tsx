@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import styles from "./movieCarouselStyles";
 
+const MOVIE_DB_POSTER = "https://image.tmdb.org/t/p/original";
+
 const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
   const navigate = useNavigate();
   const [index, setIndex] = useState(0);
@@ -37,7 +39,7 @@ const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
             direction="column"
             sx={{
               ...styles.movieCarouselBackground,
-              backgroundImage: `url(https://image.tmdb.org/t/p/original${movieList[index].backdrop_path})`,
+              backgroundImage: `url(${MOVIE_DB_POSTER}${movieList[index].backdrop_path})`,
             }}
           >
             <Grid item container sx={{ ...styles.movieCarouselTextContainer }}>

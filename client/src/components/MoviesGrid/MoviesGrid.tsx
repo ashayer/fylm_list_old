@@ -15,10 +15,9 @@ const MovieGrid = ({ data }: { data: any }) => {
       item
       sx={{
         marginInline: "auto",
-        justifyContent: "space-evenly",
+        justifyContent: "center",
       }}
-      lg={10}
-      md={12}
+      xs={10}
     >
       {data.pages.map((page: MoviePopular[]) => {
         return page.map((movieDetails: MoviePopular) => (

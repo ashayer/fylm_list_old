@@ -13,23 +13,16 @@ import useUserStore from "../../stores/userStore";
 import produce from "immer";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import useAuthStore from "../../stores/authStore";
+import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
 
-const getMovieDetails = async (movieId: any) => {
-  try {
-    const response = await axios.get(`/api/movie/getMovie/${movieId}`);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+const getMovieDetails = async (movieId: string) => {
+  const response = await axios.get(`/api/movie/getMovie/${movieId}`);
+  return response.data;
 };
 
-const getMovieCast = async (movieId: any) => {
-  try {
-    const response = await axios.get(`/api/movie/getCast/${movieId}`);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+const getMovieCast = async (movieId: string) => {
+  const response = await axios.get(`/api/movie/getCast/${movieId}`);
+  return response.data;
 };
 
 const MovieDetails = ({ movieData }: any) => {
@@ -37,8 +30,20 @@ const MovieDetails = ({ movieData }: any) => {
   const userId = useAuthStore((state) => state.id);
   const userMovieLikes = useUserStore((state) => state.userMovieLikes);
   const setUserMovieLikes = useUserStore((state) => state.setUserMovieLikes);
-  const [movieDetails, setMovieDetails] = useState<MovieDetails>(tempMovieDetail);
-  const [castDetails, setCastDetails] = useState<CastDetails[]>(tempCast);
+  const { data: movieDetails, isSuccess: movieSuccess } = useQuery(
+    ["movie-details", movieId],
+    () => getMovieDetails(movieId),
+    {
+      keepPreviousData: true,
+    },
+  );
+  const { data: castDetails, isSuccess: castSuccess } = useQuery(
+    ["cast-details", movieId],
+    () => getMovieCast(movieId),
+    {
+      keepPreviousData: true,
+    },
+  );
   const [movieIsLiked, setMovieIsLiked] = useState<boolean>(false);
 
   const addMovieToLikedList = () => {
@@ -74,24 +79,17 @@ const MovieDetails = ({ movieData }: any) => {
   };
 
   useEffect(() => {
-    // getMovieDetails(movieId).then((details: any) => {
-    //   setMovieDetails(details);
-    // });
-    // getMovieCast(movieId).then((castList: any) => {
-    //   const minLength = Math.min(castList.length, 10);
-    //   setCastDetails(castList.slice(0, minLength));
-    // });
     checkIfMovieIsLiked();
-  }, [movieId]);
+  }, []);
 
   return (
     <Box>
-      {movieDetails && castDetails && (
+      {movieSuccess && castSuccess && (
         <Grid item container sx={{ width: "80vw", marginInline: "auto" }}>
           <Grid
             item
             sx={{
-              backgroundImage: `url(https://image.tmdb.org/t/p/w500/${movieDetails.poster_path})`,
+              backgroundImage: `url(https://image.tmdb.org/t/p/w500${movieDetails.poster_path})`,
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
               backgroundSize: "cover",
