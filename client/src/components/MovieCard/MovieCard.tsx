@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import styles from "./styles";
+import styles from "./movieCardStyles";
 
 const MovieCard = ({ movieDetails }: { movieDetails: MoviePopular }) => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const MovieCard = ({ movieDetails }: { movieDetails: MoviePopular }) => {
           ...styles.movieCardBackground,
           backgroundImage: `url(https://image.tmdb.org/t/p/w200/${movieDetails.poster_path})`,
         }}
-      ></Grid>
+      />
       <Typography sx={{ ...styles.movieCardText }}>
         <strong>{movieDetails.title}</strong>
       </Typography>
@@ -30,12 +30,3 @@ const MovieCard = ({ movieDetails }: { movieDetails: MoviePopular }) => {
 };
 
 export default MovieCard;
-
-// sx={{
-//   backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieList[index].backdrop_path})`,
-//   backgroundRepeat: "no-repeat",
-//   backgroundPosition: "center",
-//   backgroundSize: "cover",
-//   color: "white",
-//   justifyContent: "end",
-// }}

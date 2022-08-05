@@ -1,48 +1,34 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, IconButton, Link, Typography } from "@mui/material";
 import React from "react";
 import useStore from "../../stores/authStore";
 import { useNavigate } from "react-router-dom";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import styles from "./navbarStyles";
 const Navbar = () => {
   const user = useStore((state) => state.isUser);
   const username = useStore((state) => state.username);
   const navigate = useNavigate();
 
   return (
-    <Grid
-      container
-      sx={{
-        minHeight: "10vh",
-        backgroundColor: "white",
-        alignItems: "center",
-        borderBottom: "10px solid #2B2A2A",
-        marginInline: "auto",
-      }}
-      maxWidth="xl"
-    >
+    <Grid container sx={{ ...styles.navBarContainer }} maxWidth="xl">
       <Grid item sx={{ flexGrow: 1 }}>
-        <Typography
-          variant="h2"
-          sx={{ border: "1px solid red", cursor: "pointer" }}
-          onClick={() => navigate("/home")}
-        >
-          <strong>FiLM LIST</strong>
-        </Typography>
+        <Link component="button" underline="none" onClick={() => navigate("/home")}>
+          <Typography variant="h2">
+            <strong>FiLM LIST</strong>
+          </Typography>
+        </Link>
       </Grid>
       {user && (
         <>
           <Grid
             item
             sx={{
-              mr: 5,
-              fontSize: "50px",
-              display: "flex",
-              alignItems: "center",
-              flexWrap: "wrap",
+              ...styles.navBarIsUserBox,
             }}
           >
-            <Typography variant="h4">{username}</Typography>
-            <AccountBoxIcon fontSize="inherit" onClick={() => navigate(`/user/${username}`)} />
+            <IconButton onClick={() => navigate(`/user/${username}`)}>
+              <AccountBoxIcon />
+            </IconButton>
           </Grid>
           <Grid item>
             <Button variant="contained">Log Out</Button>
