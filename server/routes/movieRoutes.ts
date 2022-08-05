@@ -3,7 +3,7 @@ import { getPopular, getMovie, getCast } from "../controllers/movieController.js
 
 const router = express.Router();
 
-router.get("/getPopular", getPopular);
+router.get("/getPopular/:page", getPopular);
 router.get("/getMovie/:movieId", getMovie);
 router.get("/getCast/:movieId", getCast);
 

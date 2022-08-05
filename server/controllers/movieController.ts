@@ -7,7 +7,6 @@ const movie_db_url = "https://api.themoviedb.org/3/movie/";
 
 export const getPopular = async (req: express.Request, res: express.Response) => {
   const { page } = req.params;
-
   try {
     const movies = await axios.get(
       `${movie_db_url}popular?api_key=${process.env.MOVIE_DB_API_KEY}&page=${page}`,
