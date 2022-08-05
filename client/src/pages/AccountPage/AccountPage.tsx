@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import useAuthStore from "../../stores/authStore";
 import useUserStore from "../../stores/userStore";
 
-
 const getUserMovieLikes = async ({ userId }: any) => {
   try {
     const response = await axios.get(`/api/user/getUserMovieLikes/${userId}`);

@@ -1,42 +1,33 @@
-import { Box, Button, Typography } from "@mui/material";
-import { type } from "@testing-library/user-event/dist/type";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { Box, CircularProgress } from "@mui/material";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieCarousel from "../../components/MovieCarousel/MovieCarousel";
 import MovieGrid from "../../components/MoviesGrid/MoviesGrid";
 import useStore from "../../stores/authStore";
-import testData from "./temp";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
-//! remove comment for function call
-const getPopularMovies = async ({ page }: { page: number }) => {
-  try {
-    const response = await axios.get("/api/movie/getPopular", { params: { page } });
-    return response.data.results;
-  } catch (error) {
-    console.log(error);
-  }
+const getPopularMovies = async () => {
+  const response = await axios.get("/api/movie/getPopular", { params: { page: 1 } });
+  return response.data.results;
 };
 
 const Home = () => {
   const navigate = useNavigate();
   const user = useStore((state) => state.isUser);
-  const [movieList, setMovieList] = useState<MoviePopular[]>(testData);
+  const { data, status } = useQuery(["popular-movies"], getPopularMovies);
 
   useEffect(() => {
     if (!user) navigate("/login");
-    else {
-      // getPopularMovies().then((movies) => {
-      //   console.log(movies);
-      //   setMovieList(movies);
-      // });
-    }
   }, [navigate, user]);
+
+  if (status === "loading") return <CircularProgress></CircularProgress>;
+  if (status === "error") return <Box>Error...</Box>;
 
   return (
     <Box>
-      <Box>{movieList.length > 0 && <MovieCarousel movieList={movieList} />}</Box>
-      <Box>{movieList.length > 0 && <MovieGrid movieList={movieList} />}</Box>
+      <Box>{data.length > 0 && <MovieCarousel movieList={data} />}</Box>
+      <Box>{data.length > 0 && <MovieGrid movieList={data} />}</Box>
     </Box>
   );
 };
