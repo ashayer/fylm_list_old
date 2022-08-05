@@ -4,10 +4,12 @@ import { devtools, persist } from "zustand/middleware";
 const store = (set: any) => ({
   isUser: false,
   username: "",
-  setIsUser: (user: boolean, username: string) => set({ isUser: user, username: username }),
+  id: "",
+  setIsUser: (user: boolean, username: string, id: any) =>
+    set({ isUser: user, username, id }),
 });
 
-const useStore = create(
+const useAuthStore = create(
   devtools(
     persist(store, {
       name: "user",
@@ -15,4 +17,4 @@ const useStore = create(
   ),
 );
 
-export default useStore;
+export default useAuthStore;
