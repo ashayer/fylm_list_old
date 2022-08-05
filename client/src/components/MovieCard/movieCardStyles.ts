@@ -1,6 +1,5 @@
 const styles = {
   movieCardContainer: {
-    borderRadius: "10px",
     justifyContent: "center",
     cursor: "pointer",
     direction: "column",
@@ -14,7 +13,7 @@ const styles = {
     width: "200px",
   },
   movieCardBackground: {
-    borderRadius: "10px",
+    borderRadius: "10px 10px 0px 0px",
     height: "300px",
     width: "200px",
   },
