@@ -1,34 +1,52 @@
-import { Box, CircularProgress } from "@mui/material";
-import { useEffect } from "react";
+import { Box, CircularProgress, Button, Grid } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieCarousel from "../../components/MovieCarousel/MovieCarousel";
 import MovieGrid from "../../components/MoviesGrid/MoviesGrid";
 import useStore from "../../stores/authStore";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { QueryFunctionContext, useInfiniteQuery } from "@tanstack/react-query";
+import MovieCard from "../../components/MovieCard/MovieCard";
 
-const getPopularMovies = async () => {
-  const response = await axios.get("/api/movie/getPopular", { params: { page: 1 } });
+const getPopularMovies = async ({ pageParam = 1 }: QueryFunctionContext) => {
+  const response = await axios.get(`/api/movie/getPopular/${pageParam}`);
   return response.data.results;
 };
 
 const Home = () => {
   const navigate = useNavigate();
   const user = useStore((state) => state.isUser);
-  const { data, status } = useQuery(["popular-movies"], getPopularMovies);
+  const { data, isLoading, isError, fetchNextPage, isSuccess } = useInfiniteQuery(
+    ["popular-movies"],
+    getPopularMovies,
+    {
+      getNextPageParam: (lastPage, pages) => pages.length + 1,
+    },
+  );
 
   useEffect(() => {
     if (!user) navigate("/login");
   }, [navigate, user]);
 
-  if (status === "loading") return <CircularProgress></CircularProgress>;
-  if (status === "error") return <Box>Error...</Box>;
+  if (isLoading) return <CircularProgress></CircularProgress>;
+  if (isError) return <Box>Error...</Box>;
 
   return (
-    <Box>
-      <Box>{data.length > 0 && <MovieCarousel movieList={data} />}</Box>
-      <Box>{data.length > 0 && <MovieGrid movieList={data} />}</Box>
-    </Box>
+    <>
+      {isSuccess && (
+        <>
+          <MovieCarousel movieList={data.pages[0]} />
+          <MovieGrid data={data} />
+          <Button
+            variant="contained"
+            sx={{ width: "100%", height: "100px" }}
+            onClick={() => fetchNextPage()}
+          >
+            Load next
+          </Button>
+        </>
+      )}
+    </>
   );
 };
 

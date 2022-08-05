@@ -4,7 +4,6 @@ import styles from "./movieCardStyles";
 
 const MovieCard = ({ movieDetails }: { movieDetails: MoviePopular }) => {
   const navigate = useNavigate();
-
   return (
     <Grid
       container
@@ -16,7 +15,7 @@ const MovieCard = ({ movieDetails }: { movieDetails: MoviePopular }) => {
         item
         sx={{
           ...styles.movieCardBackground,
-          backgroundImage: `url(https://image.tmdb.org/t/p/w200/${movieDetails.poster_path})`,
+          backgroundImage: `url(https://image.tmdb.org/t/p/w200${movieDetails.poster_path})`,
         }}
       />
       <Typography sx={{ ...styles.movieCardText }}>

@@ -2,11 +2,11 @@ import { Box, Grid, Typography } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
 import MovieCard from "../MovieCard/MovieCard";
 
-const MovieGrid = ({ movieList }: { movieList: MoviePopular[] }) => {
+const MovieGrid = ({ data }: { data: any }) => {
   return (
     // <InfiniteScroll
     //   dataLength={movieList.length} //This is important field to render the next data
-    //   next={loadNextPage}
+    //   next={setPage((old: number) => old + 1)}
     //   hasMore={true}
     //   loader={<h4>Loading...</h4>}
     // >
@@ -20,8 +20,10 @@ const MovieGrid = ({ movieList }: { movieList: MoviePopular[] }) => {
       lg={10}
       md={12}
     >
-      {movieList.map((movie: MoviePopular) => {
-        return <MovieCard movieDetails={movie} key={movie.id} />;
+      {data.pages.map((page: MoviePopular[]) => {
+        return page.map((movieDetails: MoviePopular) => (
+          <MovieCard movieDetails={movieDetails} key={movieDetails.id}></MovieCard>
+        ));
       })}
     </Grid>
     //</InfiniteScroll>
