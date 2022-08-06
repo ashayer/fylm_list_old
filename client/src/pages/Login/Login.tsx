@@ -51,13 +51,12 @@ const Login = () => {
       setEmailError("");
       setPasswordError("");
       loginUser(values).then((response: any) => {
-        console.log(response);
         if (response.status === 200) {
           setUser(true, response.data.username, response.data.id);
           navigate("/home");
         } else {
-          setEmailError(response.data.errors.email);
-          setPasswordError(response.data.errors.password);
+          setEmailError(response?.data.errors.email);
+          setPasswordError(response?.data.errors.password);
         }
       });
     },

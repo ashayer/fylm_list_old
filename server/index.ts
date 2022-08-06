@@ -23,9 +23,9 @@ app.use(cors());
 app.use(cookieParser());
 //parses data with querystring library
 app.use(express.urlencoded({ extended: false }));
-//app.use("/api/user", authRouter);
-app.use("/api/movie", movieRouter);
-//app.use("/api/user", userRouter);
+app.use("/api/user", authRouter, movieRouter, userRouter);
+// app.use("/api/user", movieRouter);
+// app.use("/api/user", userRouter);
 
 //if in development use public index otherwise use build
 if (process.env.DEV === "true") {

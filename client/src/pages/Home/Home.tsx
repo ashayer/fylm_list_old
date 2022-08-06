@@ -9,7 +9,7 @@ import { QueryFunctionContext, useInfiniteQuery } from "@tanstack/react-query";
 import MovieCard from "../../components/MovieCard/MovieCard";
 
 const getPopularMovies = async ({ pageParam = 1 }: QueryFunctionContext) => {
-  const response = await axios.get(`/api/movie/getPopular/${pageParam}`);
+  const response = await axios.get(`/api/user/getPopular/${pageParam}`);
   return response.data.results;
 };
 

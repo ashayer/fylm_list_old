@@ -1,12 +1,10 @@
 import express from "express";
-import User from "../models/userModel.js";
-import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
 import axios from "axios";
 const movie_db_url = "https://api.themoviedb.org/3/movie/";
 
 export const getPopular = async (req: express.Request, res: express.Response) => {
   const { page } = req.params;
+  console.log("getting in the controller function");
   try {
     const movies = await axios.get(
       `${movie_db_url}popular?api_key=${process.env.MOVIE_DB_API_KEY}&page=${page}`,

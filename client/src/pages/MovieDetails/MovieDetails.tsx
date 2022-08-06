@@ -13,12 +13,12 @@ import MovieDetailsOverview from "../../components/MovieDetails/MovieDetailsOver
 import MovieDetailsPoster from "../../components/MovieDetails/MovieDetailsPoster";
 
 const getMovieDetails = async (movieId: string) => {
-  const response = await axios.get(`/api/movie/getMovie/${movieId}`);
+  const response = await axios.get(`/api/user/getMovie/${movieId}`);
   return response.data;
 };
 
 const getMovieCast = async (movieId: string) => {
-  const response = await axios.get(`/api/movie/getCast/${movieId}`);
+  const response = await axios.get(`/api/user/getCast/${movieId}`);
   return response.data;
 };
 
