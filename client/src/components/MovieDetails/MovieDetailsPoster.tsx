@@ -1,22 +1,69 @@
 import { Grid, Typography, IconButton } from "@mui/material";
-import React from "react";
+import { useEffect, useState } from "react";
 import styles from "./movieDetailStyles";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import useUserStore from "../../stores/userStore";
+import produce from "immer";
+import useAuthStore from "../../stores/authStore";
+import axios from "axios";
 
 const MOVIE_DB_POSTER = "https://image.tmdb.org/t/p/w500";
 
-const MovieDetailsPoster = ({
-  movieDetails,
-  removeMovieFromLikedList,
-  addMovieToLikedList,
-  movieIsLiked,
-}: {
-  movieDetails: MovieDetails;
-  removeMovieFromLikedList: any;
-  addMovieToLikedList: any;
-  movieIsLiked: boolean;
-}) => {
+const MovieDetailsPoster = ({ movieDetails }: { movieDetails: MovieDetails }) => {
+  const [movieIsLiked, setMovieIsLiked] = useState<boolean>(false);
+  const userId = useAuthStore((state) => state.id);
+
+  const userMovieLikes = useUserStore((state) => state.userMovieLikes);
+  const setUserMovieLikes = useUserStore((state) => state.setUserMovieLikes);
+  const addMovieToLikedList = () => {
+    const addedMovieList = produce<any>(userMovieLikes, (draft) => {
+      draft.push(movieDetails.id);
+    });
+    setUserMovieLikes(addedMovieList);
+    setMovieIsLiked(!movieIsLiked);
+    updateUserMovieLikes(addedMovieList);
+  };
+
+  const removeMovieFromLikedList = () => {
+    const removedMovieList = produce<any>(userMovieLikes, (draft) => {
+      const index = draft.findIndex((id: number) => id === movieDetails.id);
+      if (index !== -1) draft.splice(index, 1);
+    });
+    setUserMovieLikes(removedMovieList);
+    setMovieIsLiked(!movieIsLiked);
+    updateUserMovieLikes(removedMovieList);
+  };
+
+  const checkIfMovieIsLiked = () => {
+    const isLiked = userMovieLikes.includes(movieDetails.id as never);
+    setMovieIsLiked(isLiked);
+  };
+
+  const updateUserMovieLikes = async (updatedMovieList: string[]) => {
+    try {
+      const response = await axios.patch(`/api/user/likeMovie/${userId}`, { updatedMovieList });
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getUserMovieLikes = async () => {
+    try {
+      const response = await axios.get(`/api/user/getUserMovieLikes/${userId}`);
+      setUserMovieLikes(response.data);
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  useEffect(() => {
+    getUserMovieLikes();
+    checkIfMovieIsLiked();
+  }, []);
+
   return (
     <Grid
       item

@@ -4,7 +4,7 @@ import { devtools } from "zustand/middleware";
 const store = (set: any) => ({
   userMovieLikes: [],
   userFriends: [],
-  setUserMovieLikes: (userMovieLikes: string[]) => set({ userMovieLikes }),
+  setUserMovieLikes: (userMovieLikes: string[] | undefined) => set({ userMovieLikes }),
   setUserFriends: (userFriends: any[]) => set({ userFriends }),
 });
 

@@ -1,4 +1,4 @@
-import MovieDetails from "./components/MovieDetails/MovieDetails";
+import MovieDetails from "./pages/MovieDetails/MovieDetails";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
