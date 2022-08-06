@@ -1,10 +1,10 @@
 import express from "express";
 import { getPopular, getMovie, getCast } from "../controllers/movieController.js";
 
-const router = express.Router();
+const movieRouter = express.Router();
 
-router.get("/getPopular/:page", getPopular);
-router.get("/getMovie/:movieId", getMovie);
-router.get("/getCast/:movieId", getCast);
+movieRouter.get("/getPopular/:page", getPopular);
+movieRouter.get("/getMovie/:movieId", getMovie);
+movieRouter.get("/getCast/:movieId", getCast);
 
-export default router;
+export default movieRouter;

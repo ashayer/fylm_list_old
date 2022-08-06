@@ -1,9 +1,8 @@
 {
   "files": {
-    "main.css": "/static/css/main.59e8f390.css",
-    "main.js": "/static/js/main.1c2c2053.js",
+    "main.css": "/static/css/main.efecbe44.css",
+    "main.js": "/static/js/main.cb87624a.js",
     "static/js/787.c4e7f8f9.chunk.js": "/static/js/787.c4e7f8f9.chunk.js",
-    "static/media/1154.jpg": "/static/media/1154.af1549fc7d5b3ebc6239.jpg",
     "static/media/manrope-all-400-normal.woff": "/static/media/manrope-all-400-normal.71842421721b54059e80.woff",
     "static/media/manrope-latin-400-normal.woff2": "/static/media/manrope-latin-400-normal.244f03be95db25a45a6b.woff2",
     "static/media/manrope-latin-ext-400-normal.woff2": "/static/media/manrope-latin-ext-400-normal.d82682c353d698d384bf.woff2",
@@ -12,12 +11,12 @@
     "static/media/manrope-vietnamese-400-normal.woff2": "/static/media/manrope-vietnamese-400-normal.384504356acf9c84bb3a.woff2",
     "static/media/manrope-cyrillic-ext-400-normal.woff2": "/static/media/manrope-cyrillic-ext-400-normal.6a44864f4f5fff4be4ae.woff2",
     "index.html": "/index.html",
-    "main.59e8f390.css.map": "/static/css/main.59e8f390.css.map",
-    "main.1c2c2053.js.map": "/static/js/main.1c2c2053.js.map",
+    "main.efecbe44.css.map": "/static/css/main.efecbe44.css.map",
+    "main.cb87624a.js.map": "/static/js/main.cb87624a.js.map",
     "787.c4e7f8f9.chunk.js.map": "/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.59e8f390.css",
-    "static/js/main.1c2c2053.js"
+    "static/css/main.efecbe44.css",
+    "static/js/main.cb87624a.js"
   ]
 }

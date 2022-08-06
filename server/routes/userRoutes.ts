@@ -6,11 +6,11 @@ import {
   addFriend,
 } from "../controllers/userController.js";
 
-const router = express.Router();
+const userRouter = express.Router();
 
-router.get("/getUserMovieLikes/:userId", getUserMovieLikes);
-router.patch("/likeMovie/:userId", likeMovie);
-router.get("/:userId/getFriends", getUserFriends);
-router.patch("/:userId/addFriend", addFriend);
+userRouter.get("/getUserMovieLikes/:userId", getUserMovieLikes);
+userRouter.patch("/likeMovie/:userId", likeMovie);
+userRouter.get("/:userId/getFriends", getUserFriends);
+userRouter.patch("/:userId/addFriend", addFriend);
 
-export default router;
+export default userRouter;

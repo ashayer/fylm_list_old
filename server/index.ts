@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
-import authRoutes from "./routes/authRoutes.js";
-import movieRoutes from "./routes/movieRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
+import authRouter from "./routes/authRoutes.js";
+import movieRouter from "./routes/movieRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
@@ -23,9 +23,9 @@ app.use(cors());
 app.use(cookieParser());
 //parses data with querystring library
 app.use(express.urlencoded({ extended: false }));
-app.use("/api/user", authRoutes);
-app.use("/api/movie", movieRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/user", authRouter);
+app.use("/api/movie", movieRouter);
+app.use("/api/user", userRouter);
 
 //if in development use public index otherwise use build
 if (process.env.DEV === "true") {
@@ -40,7 +40,7 @@ if (process.env.DEV === "true") {
   app.use(express.static(path.join(__dirname, "../client/build/")));
   app.use(express.static("public"));
 
-  app.use((req: any, res: any) => {
+  app.get("*", (req: any, res: any) => {
     res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
   });
 }
