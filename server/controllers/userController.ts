@@ -17,7 +17,7 @@ export const likeMovie = async (req: express.Request, res: express.Response) => 
   const { updatedMovieList } = req.body;
   try {
     const user = await User.findByIdAndUpdate(userId, { movieLikes: updatedMovieList });
-    res.status(200).json(user?.movieLikes);
+    res.status(200).json(updatedMovieList);
   } catch (err) {
     res.status(404).json({ err });
   }

@@ -26,20 +26,20 @@ const MovieDetails = ({ movieData }: any) => {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.isUser);
 
-  const { data: movieDetails, isSuccess: movieSuccess } = useQuery(
-    ["movie-details", movieId],
-    () => getMovieDetails(movieId),
-    {
-      keepPreviousData: true,
-    },
-  );
-  const { data: castDetails, isSuccess: castSuccess } = useQuery(
-    ["cast-details", movieId],
-    () => getMovieCast(movieId),
-    {
-      keepPreviousData: true,
-    },
-  );
+  const {
+    data: movieDetails,
+    isSuccess: movieSuccess,
+    isLoading: movieLoading,
+  } = useQuery(["movie-details", movieId], () => getMovieDetails(movieId), {
+    keepPreviousData: true,
+  });
+  const {
+    data: castDetails,
+    isSuccess: castSuccess,
+    isLoading: castLoading,
+  } = useQuery(["cast-details", movieId], () => getMovieCast(movieId), {
+    keepPreviousData: true,
+  });
   const [castLength, setCastLength] = useState<number>(15);
   const loadMoreCast = () => {
     setCastLength((old) => old + 10);
@@ -51,7 +51,7 @@ const MovieDetails = ({ movieData }: any) => {
 
   return (
     <Box>
-      {movieSuccess && castSuccess && (
+      {movieSuccess && castSuccess && !movieLoading && !castLoading && (
         <Grid item container sx={{ marginInline: "auto", mt: 5 }} xs={11} lg={10}>
           <MovieDetailsPoster movieDetails={movieDetails} />
           <MovieDetailsOverview movieDetails={movieDetails} />

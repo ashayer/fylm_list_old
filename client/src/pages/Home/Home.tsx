@@ -1,12 +1,11 @@
-import { Box, CircularProgress, Button, Grid } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, CircularProgress } from "@mui/material";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieCarousel from "../../components/MovieCarousel/MovieCarousel";
 import MovieGrid from "../../components/MoviesGrid/MoviesGrid";
 import useAuthStore from "../../stores/authStore";
 import axios from "axios";
 import { QueryFunctionContext, useInfiniteQuery } from "@tanstack/react-query";
-import MovieCard from "../../components/MovieCard/MovieCard";
 
 const getPopularMovies = async ({ pageParam = 1 }: QueryFunctionContext) => {
   const response = await axios.get(`/api/movie/getPopular/${pageParam}`);
@@ -33,17 +32,10 @@ const Home = () => {
 
   return (
     <>
-      {isSuccess && user && (
+      {isSuccess && user && !isLoading && (
         <>
           <MovieCarousel movieList={data.pages[0]} />
           <MovieGrid data={data} fetchNextPage={fetchNextPage} />
-          <Button
-            variant="contained"
-            sx={{ width: "100%", height: "100px" }}
-            onClick={() => fetchNextPage()}
-          >
-            Load next
-          </Button>
         </>
       )}
     </>

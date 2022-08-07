@@ -1,4 +1,4 @@
-import { Grid, Typography, IconButton } from "@mui/material";
+import { Grid, Typography, IconButton, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import styles from "./movieDetailStyles";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -7,11 +7,11 @@ import useUserStore from "../../stores/userStore";
 import produce from "immer";
 import useAuthStore from "../../stores/authStore";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 const MOVIE_DB_POSTER = "https://image.tmdb.org/t/p/w500";
 
 const MovieDetailsPoster = ({ movieDetails }: { movieDetails: MovieDetails }) => {
-  const [movieIsLiked, setMovieIsLiked] = useState<boolean>(false);
   const userId = useAuthStore((state) => state.id);
 
   const userMovieLikes = useUserStore((state) => state.userMovieLikes);
@@ -21,8 +21,8 @@ const MovieDetailsPoster = ({ movieDetails }: { movieDetails: MovieDetails }) =>
       draft.push(movieDetails.id);
     });
     setUserMovieLikes(addedMovieList);
-    setMovieIsLiked(!movieIsLiked);
     updateUserMovieLikes(addedMovieList);
+    refetch();
   };
 
   const removeMovieFromLikedList = () => {
@@ -31,22 +31,8 @@ const MovieDetailsPoster = ({ movieDetails }: { movieDetails: MovieDetails }) =>
       if (index !== -1) draft.splice(index, 1);
     });
     setUserMovieLikes(removedMovieList);
-    setMovieIsLiked(!movieIsLiked);
     updateUserMovieLikes(removedMovieList);
-  };
-
-  const checkIfMovieIsLiked = () => {
-    const isLiked = userMovieLikes.includes(movieDetails.id as never);
-    setMovieIsLiked(isLiked);
-  };
-
-  const updateUserMovieLikes = async (updatedMovieList: string[]) => {
-    try {
-      const response = await axios.patch(`/api/user/likeMovie/${userId}`, { updatedMovieList });
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
+    refetch();
   };
 
   const getUserMovieLikes = async () => {
@@ -59,10 +45,23 @@ const MovieDetailsPoster = ({ movieDetails }: { movieDetails: MovieDetails }) =>
     }
   };
 
-  useEffect(() => {
-    getUserMovieLikes();
-    checkIfMovieIsLiked();
-  }, []);
+  const updateUserMovieLikes = async (updatedMovieList: string[]) => {
+    try {
+      const response = await axios.patch(`/api/user/likeMovie/${userId}`, { updatedMovieList });
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const { data, isSuccess, isLoading, refetch, isRefetching } = useQuery(
+    ["movie-details", userId],
+    getUserMovieLikes,
+    {
+      keepPreviousData: true,
+    },
+  );
 
   return (
     <Grid
@@ -82,7 +81,9 @@ const MovieDetailsPoster = ({ movieDetails }: { movieDetails: MovieDetails }) =>
           backgroundImage: `url(${MOVIE_DB_POSTER}${movieDetails.poster_path})`,
         }}
       >
-        {movieIsLiked ? (
+        {isLoading || isRefetching ? (
+          <CircularProgress />
+        ) : data.includes(movieDetails.id as never) && isSuccess ? (
           <IconButton sx={{ color: "red" }} onClick={removeMovieFromLikedList}>
             <FavoriteIcon fontSize="large" />
           </IconButton>
@@ -93,12 +94,14 @@ const MovieDetailsPoster = ({ movieDetails }: { movieDetails: MovieDetails }) =>
         )}
       </Grid>
       <Grid item>
-        <Typography sx={{}} variant="h5">
+        <Typography sx={{ fontWeight: "bold" }} variant="h5">
           {movieDetails.runtime}m
         </Typography>
       </Grid>
       <Grid item>
-        <Typography variant="h5">{movieDetails.release_date}</Typography>
+        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+          {movieDetails.release_date}
+        </Typography>
       </Grid>
     </Grid>
   );
