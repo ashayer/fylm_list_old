@@ -45,11 +45,8 @@ const MovieDetailsPoster = ({ movieDetails }: { movieDetails: MovieDetails }) =>
   const updateUserMovieLikes = async (updatedMovieList: string[]) => {
     try {
       const response = await axios.patch(`/api/user/likeMovie/${userId}`, { updatedMovieList });
-      console.log(response);
       return response;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const { data, isSuccess, isLoading, isError, refetch, isRefetching } = useQuery(
