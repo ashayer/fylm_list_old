@@ -20,6 +20,7 @@ const Home = () => {
     getPopularMovies,
     {
       getNextPageParam: (lastPage, pages) => pages.length + 1,
+      enabled: user,
     },
   );
 

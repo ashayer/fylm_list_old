@@ -7,13 +7,16 @@ import axios from "axios";
 
 const Navbar = () => {
   const user = useAuthStore((state) => state.isUser);
+
+  const setUser = useAuthStore((state) => state.setIsUser);
   const username = useAuthStore((state) => state.username);
   const navigate = useNavigate();
 
   const logoutUser = async () => {
-    navigate("/");
-    await axios.post("/api/user/logout");
+    navigate("/login");
+    setUser(false, "", "");
     localStorage.removeItem("user");
+    await axios.post("/api/user/logout");
   };
 
   return (
