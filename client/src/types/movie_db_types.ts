@@ -1,7 +1,7 @@
 import { NoSubstitutionTemplateLiteral } from "typescript";
 
 declare global {
-  interface Genre {
+  interface MovieGenre {
     id: number;
     name: string;
   }
@@ -28,7 +28,7 @@ declare global {
     backdrop_path: string;
     belongs_to_collection: any;
     budget: number;
-    genres: Genre[];
+    genres: MovieGenre[];
     homepage: string;
     id: number;
     imdb_id: string;

@@ -13,16 +13,16 @@ const MovieDetailsOverview = ({ movieDetails }: { movieDetails: MovieDetails }) 
 
       <Grid item>
         <Chip
-          label="PG-13"
+          label={movieDetails.adult ? "R" : "PG"}
           sx={{
             backgroundColor: "black",
             color: "white",
             ...styles.movieDetailsChip,
           }}
         />
-        <Chip label="Adventure" sx={{ ...styles.movieDetailsChip }} />
-        <Chip label="Action" sx={{ ...styles.movieDetailsChip }} />
-        <Chip label="Fantasy" sx={{ ...styles.movieDetailsChip }} />
+        {movieDetails.genres.map((genre:MovieGenre) => (
+          <Chip label={genre.name} key={genre.id} sx={{ ...styles.movieDetailsChip }}></Chip>
+        ))}
       </Grid>
       <Grid item container sx={{ alignItems: "end", borderBottom: "1px solid black" }}>
         <Grid item sx={{ flexGrow: 1 }}>
