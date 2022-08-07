@@ -8,6 +8,7 @@ import "@fontsource/manrope";
 import Home from "./pages/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
 import AccountPage from "./pages/AccountPage/AccountPage";
+import Error from "./components/Error/Error";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/movie/:movieId" element={<MovieDetails />} />
         <Route path="/user/:username" element={<AccountPage />} />
-        <Route path="*" element={<h1>404 not found</h1>} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>
   );
