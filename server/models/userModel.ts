@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema(
       required: [true, "Username Required"],
       unique: true,
       validate: [validator.isAlphanumeric, "Invalid Username"],
+      maxLength: [30, "Username must not exceed 30 characters"],
     },
     email: {
       type: String,

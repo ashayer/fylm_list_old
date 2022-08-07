@@ -11,7 +11,10 @@ const validationSchema = yup.object({
     .string()
     .min(6, "Password should be of minimum 6 characters length")
     .required("Password is required"),
-  username: yup.string().required("Username is required"),
+  username: yup
+    .string()
+    .required("Username is required")
+    .max(30, "Usernames must not exceed than 30 characters"),
 });
 
 type SignupProps = {
@@ -24,8 +27,8 @@ const signupUser = async (userData: SignupProps) => {
   try {
     const response = await axios.post("/api/user/signup", userData);
     return response;
-  } catch (error) {
-    return error;
+  } catch (error: any) {
+    return error.response;
   }
 };
 
@@ -50,8 +53,6 @@ const Signup = () => {
       setPasswordError("");
       setUsernameError("");
       signupUser(values).then((response: any) => {
-        console.log(response);
-
         if (response.status === 201) {
           navigate("/home");
           setUser(true, response.data.username, response.data.id);
