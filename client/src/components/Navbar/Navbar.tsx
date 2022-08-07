@@ -11,9 +11,9 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const logoutUser = async () => {
+    navigate("/");
     await axios.post("/api/user/logout");
     localStorage.removeItem("user");
-    navigate("/");
   };
 
   return (
@@ -33,8 +33,8 @@ const Navbar = () => {
               ...styles.navBarIsUserBox,
             }}
           >
-            <IconButton onClick={() => navigate(`/user/${username}`)}>
-              <AccountBoxIcon />
+            <IconButton sx={{ color: "black" }} onClick={() => navigate(`/user/${username}`)}>
+              <AccountBoxIcon fontSize="large" />
             </IconButton>
           </Grid>
           <Grid item>
@@ -43,12 +43,6 @@ const Navbar = () => {
             </Button>
           </Grid>
         </>
-      )}
-      {!user && (
-        <Grid item>
-          <Button variant="contained">Log In</Button>
-          <Button variant="contained">Sign Up</Button>
-        </Grid>
       )}
     </Grid>
   );
