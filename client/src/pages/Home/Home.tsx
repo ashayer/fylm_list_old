@@ -36,7 +36,7 @@ const Home = () => {
       {isSuccess && (
         <>
           <MovieCarousel movieList={data.pages[0]} />
-          <MovieGrid data={data} />
+          <MovieGrid data={data} fetchNextPage={fetchNextPage} />
           <Button
             variant="contained"
             sx={{ width: "100%", height: "100px" }}
