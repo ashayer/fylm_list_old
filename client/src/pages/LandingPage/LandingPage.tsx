@@ -24,33 +24,30 @@ const LandingPage = () => {
       container
       direction="column"
       sx={{
-        height: "100vh",
         backgroundColor: "#FFFFFF",
-        borderRight: "10px solid #2B2A2A",
-        borderLeft: "10px solid #2B2A2A",
         alignItems: "center",
         marginInline: "auto",
       }}
       maxWidth="md"
     >
       <Grid item>
-        <Typography variant="h1" sx={{ mt: 4 }}>
-          <strong>FYLM LIST</strong>
+        <Typography variant="h1" sx={{ mt: 3 }}>
+          <strong>FiLM LIST</strong>
         </Typography>
       </Grid>
-      <Grid item sx={{ fontSize: "85px", mt: 3 }}>
+      <Grid item sx={{ fontSize: "55px", mt: 2 }}>
         <RemoveRedEyeIcon fontSize="inherit"></RemoveRedEyeIcon>
       </Grid>
       <Grid item>
         <Typography variant="h4">See popular movies</Typography>
       </Grid>
-      <Grid item sx={{ fontSize: "85px", mt: 3 }}>
+      <Grid item sx={{ fontSize: "55px", mt: 2 }}>
         <FavoriteIcon fontSize="inherit"></FavoriteIcon>
       </Grid>
       <Grid item>
         <Typography variant="h4">Track your favorites</Typography>
       </Grid>
-      <Grid item sx={{ fontSize: "85px", mt: 3 }}>
+      <Grid item sx={{ fontSize: "55px", mt: 2 }}>
         <TheatersIcon fontSize="inherit"></TheatersIcon>
       </Grid>
       <Grid item>
