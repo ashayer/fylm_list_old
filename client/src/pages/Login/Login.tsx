@@ -23,8 +23,8 @@ const loginUser = async (userData: loginProps) => {
   try {
     const response = await axios.post("/api/user/login", userData);
     return response;
-  } catch (error) {
-    return error;
+  } catch (error: any) {
+    return error.response;
   }
 };
 

@@ -4,9 +4,11 @@ import User from "../models/userModel.js";
 
 export const getUserMovieLikes = async (req: express.Request, res: express.Response) => {
   const { username } = req.params;
-  console.log(username);
   try {
     const user = await User.findOne({ username: username });
+    if (user === null) {
+      res.status(404).json({ error: "User not found" });
+    }
     res.status(200).json(user?.movieLikes);
   } catch (error) {
     res.status(404).json(error);

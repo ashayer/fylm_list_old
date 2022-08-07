@@ -7,15 +7,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import MovieGrid from "../../components/MoviesGrid/MoviesGrid";
 import { useQuery } from "@tanstack/react-query";
 import LikedMoviesGrid from "../../components/LikedMovieGrid/LikedMoviesGrid";
+import Loading from "../../components/Loading/Loading";
+import Error from "../../components/Error/Error";
 
 const getUserMovieLikes = async (username: any) => {
-  try {
-    const response = await axios.get(`/api/user/getUserMovieLikes/${username}`);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
+  const response = await axios.get(`/api/user/getUserMovieLikes/${username}`);
+  return response.data;
 };
 
 const AccountPage = () => {
@@ -23,23 +20,28 @@ const AccountPage = () => {
   const navigate = useNavigate();
   let { username }: any = useParams();
 
-  const {
-    data: userMovieLikes,
-    isSuccess,
-    isLoading,
-  } = useQuery(["user-likes", username], () => getUserMovieLikes(username), {
-    keepPreviousData: true,
-  });
-
   useEffect(() => {
     if (!user) navigate("/login");
   }, [user]);
 
+  const { data, isSuccess, isLoading, isError } = useQuery(
+    ["user-likes", username],
+    () => getUserMovieLikes(username),
+    {
+      keepPreviousData: true,
+    },
+  );
+
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isError) {
+    return <Error />;
+  }
+
   return (
     <Box>
-      {isSuccess && !isLoading && (
-        <LikedMoviesGrid userMovieLikes={userMovieLikes} username={username} />
-      )}
+      {isSuccess && !isError && <LikedMoviesGrid userMovieLikes={data} username={username} />}
     </Box>
   );
 };
