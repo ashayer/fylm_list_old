@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, Container, Grow, TextField, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Zoom, TextField, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../stores/authStore";
@@ -63,7 +63,7 @@ const Login = () => {
   });
 
   return (
-    <Grow in>
+    <Zoom in>
       <Container
         sx={{
           height: "70vh",
@@ -82,10 +82,10 @@ const Login = () => {
           maxWidth="sm"
           disableGutters
         >
-          <Typography variant="h2" sx={{ pt: 5, color: "#2B2A2A" }}>
+          <Typography variant="h2" sx={{ pt: 5 }}>
             <strong>Login</strong>
           </Typography>
-          <Box sx={{ backgroundColor: "#2b2a2a", borderRadius: "5px", mt: 2 }}>
+          <Box sx={{ borderRadius: "5px", mt: 2 }}>
             <form onSubmit={formik.handleSubmit}>
               <Grid container sx={{ flexDirection: "column" }}>
                 <Grid item sx={{ p: 3, pt: 10 }}>
@@ -127,7 +127,7 @@ const Login = () => {
                 <Grid item sx={{ p: 3, pb: 4, pt: 10 }}>
                   <Grid container sx={{ justifyContent: "space-between" }}>
                     <Button variant="outlined" onClick={() => navigate("/signup")}>
-                      <Typography variant="body1" sx={{ color: "white" }}>
+                      <Typography variant="body1" sx={{}}>
                         Need an account?
                       </Typography>
                     </Button>
@@ -141,7 +141,7 @@ const Login = () => {
           </Box>
         </Container>
       </Container>
-    </Grow>
+    </Zoom>
   );
 };
 
