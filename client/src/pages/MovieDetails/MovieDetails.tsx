@@ -10,6 +10,8 @@ import { useQuery } from "@tanstack/react-query";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import MovieDetailsOverview from "../../components/MovieDetails/MovieDetailsOverview";
 import MovieDetailsPoster from "../../components/MovieDetails/MovieDetailsPoster";
+import Loading from "../../components/Loading/Loading";
+import Error from "../../components/Error/Error";
 
 const getMovieDetails = async (movieId: string) => {
   const response = await axios.get(`/api/movie/getMovie/${movieId}`);
@@ -30,6 +32,7 @@ const MovieDetails = ({ movieData }: any) => {
     data: movieDetails,
     isSuccess: movieSuccess,
     isLoading: movieLoading,
+    isError: movieError,
   } = useQuery(["movie-details", movieId], () => getMovieDetails(movieId), {
     keepPreviousData: true,
   });
@@ -49,9 +52,12 @@ const MovieDetails = ({ movieData }: any) => {
     if (!user) navigate("/login");
   }, [user]);
 
+  if (movieLoading) return <Loading />;
+  if (movieError) return <Error />;
+
   return (
     <Box>
-      {movieSuccess && castSuccess && !movieLoading && !castLoading && (
+      {movieSuccess && castSuccess && (
         <Grid item container sx={{ marginInline: "auto", mt: 5 }} xs={11} lg={10}>
           <MovieDetailsPoster movieDetails={movieDetails} />
           <MovieDetailsOverview movieDetails={movieDetails} />

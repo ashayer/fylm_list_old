@@ -8,12 +8,19 @@ import produce from "immer";
 import useAuthStore from "../../stores/authStore";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import Loading from "../Loading/Loading";
+import Error from "../Error/Error";
 
 const MOVIE_DB_POSTER = "https://image.tmdb.org/t/p/w500";
 
+const getUserMovieLikes = async (username: any) => {
+  const response = await axios.get(`/api/user/getUserMovieLikes/${username}`);
+  return response.data;
+};
+
 const MovieDetailsPoster = ({ movieDetails }: { movieDetails: MovieDetails }) => {
   const userId = useAuthStore((state) => state.id);
-
+  const username = useAuthStore((state) => state.username);
   const userMovieLikes = useUserStore((state) => state.userMovieLikes);
   const setUserMovieLikes = useUserStore((state) => state.setUserMovieLikes);
   const addMovieToLikedList = () => {
@@ -35,16 +42,6 @@ const MovieDetailsPoster = ({ movieDetails }: { movieDetails: MovieDetails }) =>
     refetch();
   };
 
-  const getUserMovieLikes = async () => {
-    try {
-      const response = await axios.get(`/api/user/getUserMovieLikes/${userId}`);
-      setUserMovieLikes(response.data);
-      return response.data;
-    } catch (error) {
-      return error;
-    }
-  };
-
   const updateUserMovieLikes = async (updatedMovieList: string[]) => {
     try {
       const response = await axios.patch(`/api/user/likeMovie/${userId}`, { updatedMovieList });
@@ -55,13 +52,16 @@ const MovieDetailsPoster = ({ movieDetails }: { movieDetails: MovieDetails }) =>
     }
   };
 
-  const { data, isSuccess, isLoading, refetch, isRefetching } = useQuery(
-    ["movie-details", userId],
-    getUserMovieLikes,
+  const { data, isSuccess, isLoading, isError, refetch, isRefetching } = useQuery(
+    ["user-likes", username],
+    () => getUserMovieLikes(username),
     {
       keepPreviousData: true,
     },
   );
+
+  if (isLoading) return <Loading />;
+  if (isError) return <Error />;
 
   return (
     <Grid

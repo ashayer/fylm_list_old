@@ -3,6 +3,9 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieCarousel from "../../components/MovieCarousel/MovieCarousel";
 import MovieGrid from "../../components/MoviesGrid/MoviesGrid";
+import Loading from "../../components/Loading/Loading";
+import Error from "../../components/Error/Error";
+
 import useAuthStore from "../../stores/authStore";
 import axios from "axios";
 import { QueryFunctionContext, useInfiniteQuery } from "@tanstack/react-query";
@@ -28,8 +31,8 @@ const Home = () => {
     if (!user) navigate("/login");
   }, [navigate, user]);
 
-  if (isLoading) return <CircularProgress></CircularProgress>;
-  if (isError) return <Box>Error...</Box>;
+  if (isLoading) return <Loading />;
+  if (isError) return <Error />;
 
   return (
     <>

@@ -32,12 +32,9 @@ const AccountPage = () => {
     },
   );
 
-  if (isLoading) {
-    return <Loading />;
-  }
-  if (isError) {
-    return <Error />;
-  }
+  if (isLoading) return <Loading />;
+
+  if (isError) return <Error />;
 
   return (
     <Box>
