@@ -3,10 +3,9 @@ import { useEffect, useState } from "react";
 import useUserStore from "../../stores/userStore";
 import produce from "immer";
 import useAuthStore from "../../stores/authStore";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import CastCard from "../../components/CastCard/CastCard";
-
 import { useQuery } from "@tanstack/react-query";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import MovieDetailsOverview from "../../components/MovieDetails/MovieDetailsOverview";
@@ -24,6 +23,8 @@ const getMovieCast = async (movieId: string) => {
 
 const MovieDetails = ({ movieData }: any) => {
   let { movieId }: any = useParams();
+  const navigate = useNavigate();
+  const user = useAuthStore((state) => state.isUser);
 
   const { data: movieDetails, isSuccess: movieSuccess } = useQuery(
     ["movie-details", movieId],
@@ -43,6 +44,10 @@ const MovieDetails = ({ movieData }: any) => {
   const loadMoreCast = () => {
     setCastLength((old) => old + 10);
   };
+
+  useEffect(() => {
+    if (!user) navigate("/login");
+  }, [user]);
 
   return (
     <Box>

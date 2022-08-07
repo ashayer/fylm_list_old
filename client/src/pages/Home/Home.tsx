@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieCarousel from "../../components/MovieCarousel/MovieCarousel";
 import MovieGrid from "../../components/MoviesGrid/MoviesGrid";
-import useStore from "../../stores/authStore";
+import useAuthStore from "../../stores/authStore";
 import axios from "axios";
 import { QueryFunctionContext, useInfiniteQuery } from "@tanstack/react-query";
 import MovieCard from "../../components/MovieCard/MovieCard";
@@ -15,7 +15,7 @@ const getPopularMovies = async ({ pageParam = 1 }: QueryFunctionContext) => {
 
 const Home = () => {
   const navigate = useNavigate();
-  const user = useStore((state) => state.isUser);
+  const user = useAuthStore((state) => state.isUser);
   const { data, isLoading, isError, fetchNextPage, isSuccess } = useInfiniteQuery(
     ["popular-movies"],
     getPopularMovies,
@@ -33,7 +33,7 @@ const Home = () => {
 
   return (
     <>
-      {isSuccess && (
+      {isSuccess && user && (
         <>
           <MovieCarousel movieList={data.pages[0]} />
           <MovieGrid data={data} fetchNextPage={fetchNextPage} />

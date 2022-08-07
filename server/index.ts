@@ -9,7 +9,7 @@ import path from "path";
 import cors from "cors";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-
+import { requireAuth } from "./middleware/authMiddleware.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 connectDB();
@@ -24,8 +24,8 @@ app.use(cookieParser());
 //parses data with querystring library
 app.use(express.urlencoded({ extended: false }));
 app.use("/api/user", authRouter);
-app.use("/api/movie", movieRouter);
-app.use("/api/user", userRouter);
+app.use("/api/movie", requireAuth, movieRouter);
+app.use("/api/user", requireAuth, userRouter);
 
 //if in development use public index otherwise use build
 if (process.env.DEV === "true") {

@@ -3,10 +3,18 @@ import useAuthStore from "../../stores/authStore";
 import { useNavigate } from "react-router-dom";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import styles from "./navbarStyles";
+import axios from "axios";
+
 const Navbar = () => {
   const user = useAuthStore((state) => state.isUser);
   const username = useAuthStore((state) => state.username);
   const navigate = useNavigate();
+
+  const logoutUser = async () => {
+    await axios.post("/api/user/logout");
+    localStorage.removeItem("user");
+    navigate("/");
+  };
 
   return (
     <Grid item container sx={{ ...styles.navBarContainer }} xs={11}>
@@ -30,7 +38,9 @@ const Navbar = () => {
             </IconButton>
           </Grid>
           <Grid item>
-            <Button variant="contained">Log Out</Button>
+            <Button variant="contained" onClick={() => logoutUser()}>
+              Log Out
+            </Button>
           </Grid>
         </>
       )}
