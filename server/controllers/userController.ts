@@ -12,6 +12,16 @@ export const getUserMovieLikes = async (req: express.Request, res: express.Respo
   }
 };
 
+export const checkIfMovieIsLiked = async (req: express.Request, res: express.Response) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId);
+    res.status(200).json(user?.movieLikes);
+  } catch (error) {
+    res.status(404).json(error);
+  }
+};
+
 export const likeMovie = async (req: express.Request, res: express.Response) => {
   const { userId } = req.params;
   const { updatedMovieList } = req.body;

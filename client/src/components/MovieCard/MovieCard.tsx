@@ -28,7 +28,7 @@ const MovieCard = ({ movieDetails }: { movieDetails: MoviePopular }) => {
             justifyContent: "center",
           }}
         >
-          <Typography variant="h6">{movieDetails.vote_average}</Typography>
+          <Typography variant="h6">{(movieDetails.vote_average).toFixed(1)}</Typography>
           <StarRateRoundedIcon sx={{ color: "#FFD700" }} />
         </Stack>
       </Grid>
