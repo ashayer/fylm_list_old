@@ -9,7 +9,13 @@ const getMovieDetails = async (movieId: any) => {
   return response.data;
 };
 
-const LikedMoviesGrid = ({ userMovieLikes }: { userMovieLikes: number[] }) => {
+const LikedMoviesGrid = ({
+  userMovieLikes,
+  username,
+}: {
+  userMovieLikes: number[];
+  username: any;
+}) => {
   const queryList = userMovieLikes.map((userId: number) => {
     return {
       queryKey: ["user", userId],
@@ -18,11 +24,10 @@ const LikedMoviesGrid = ({ userMovieLikes }: { userMovieLikes: number[] }) => {
   });
 
   const results = useQueries({ queries: queryList });
-  console.log(results);
   return (
     <Grid item container xs={11} sx={{ marginInline: "auto" }}>
       <Typography variant="h2" fontWeight="bold">
-        Your Liked Movies
+        {username}'s Liked Movies
       </Typography>
       <Grid
         container

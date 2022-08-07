@@ -8,7 +8,7 @@ import {
 
 const userRouter = express.Router();
 
-userRouter.get("/getUserMovieLikes/:userId", getUserMovieLikes);
+userRouter.get("/getUserMovieLikes/:username", getUserMovieLikes);
 userRouter.patch("/likeMovie/:userId", likeMovie);
 userRouter.get("/:userId/getFriends", getUserFriends);
 userRouter.patch("/:userId/addFriend", addFriend);

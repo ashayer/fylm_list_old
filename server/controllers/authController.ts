@@ -35,12 +35,11 @@ export const signupUser = async (req: express.Request, res: express.Response) =>
     res.status(201).json({ id: user.id, username });
   } catch (err) {
     const errors = handleError(err);
+
     res.status(400).json({ errors });
   }
 };
 
 export const logoutUser = async (req: express.Request, res: express.Response) => {
-  console.log("getting here");
   res.cookie("jwt", "", { maxAge: 1 });
-  res.redirect("/login");
 };

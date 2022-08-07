@@ -3,16 +3,17 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import useAuthStore from "../../stores/authStore";
 import useUserStore from "../../stores/userStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MovieGrid from "../../components/MoviesGrid/MoviesGrid";
 import { useQuery } from "@tanstack/react-query";
 import LikedMoviesGrid from "../../components/LikedMovieGrid/LikedMoviesGrid";
 
-const getUserMovieLikes = async (userId: any) => {
+const getUserMovieLikes = async (username: any) => {
   try {
-    const response = await axios.get(`/api/user/getUserMovieLikes/${userId}`);
+    const response = await axios.get(`/api/user/getUserMovieLikes/${username}`);
     return response.data;
   } catch (error) {
+    console.log(error);
     return error;
   }
 };
@@ -20,13 +21,13 @@ const getUserMovieLikes = async (userId: any) => {
 const AccountPage = () => {
   const user = useAuthStore((state) => state.isUser);
   const navigate = useNavigate();
-  const userId = useAuthStore((state) => state.id);
+  let { username }: any = useParams();
 
   const {
     data: userMovieLikes,
     isSuccess,
     isLoading,
-  } = useQuery(["user-likes", userId], () => getUserMovieLikes(userId), {
+  } = useQuery(["user-likes", username], () => getUserMovieLikes(username), {
     keepPreviousData: true,
   });
 
@@ -35,7 +36,11 @@ const AccountPage = () => {
   }, [user]);
 
   return (
-    <Box>{isSuccess && !isLoading && <LikedMoviesGrid userMovieLikes={userMovieLikes} />}</Box>
+    <Box>
+      {isSuccess && !isLoading && (
+        <LikedMoviesGrid userMovieLikes={userMovieLikes} username={username} />
+      )}
+    </Box>
   );
 };
 

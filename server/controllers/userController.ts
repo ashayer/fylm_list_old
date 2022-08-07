@@ -3,9 +3,10 @@ import mongoose from "mongoose";
 import User from "../models/userModel.js";
 
 export const getUserMovieLikes = async (req: express.Request, res: express.Response) => {
-  const { userId } = req.params;
+  const { username } = req.params;
+  console.log(username);
   try {
-    const user = await User.findById(userId);
+    const user = await User.findOne({ username: username });
     res.status(200).json(user?.movieLikes);
   } catch (error) {
     res.status(404).json(error);
