@@ -57,6 +57,10 @@ const MovieDetailsPoster = ({ movieDetails }: { movieDetails: MovieDetails }) =>
     },
   );
 
+  if (isSuccess && !isLoading) {
+    setUserMovieLikes(data);
+  }
+
   if (isLoading) return <Loading />;
   if (isError) return <Error />;
 
