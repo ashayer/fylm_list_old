@@ -1,17 +1,16 @@
-import jwt, { VerifyOptions } from "jsonwebtoken";
-import { Request, Response, NextFunction } from "express";
+import jwt, { TokenExpiredError } from "jsonwebtoken";
+import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
 
 export const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies.jwt;
 
-  if (token) {
-    jwt.verify(token, process.env.SECRET, (err: any, decodedToken: any) => {
-      if (err) {
-      } else {
-        next();
-      }
-    });
-  } else {
-    console.log("asd");
+  try {
+    return jwt.verify(token, process.env.SECRET);
+  } catch (err) {
+    if (err instanceof jwt.TokenExpiredError) {
+    } else {
+      next();
+    }
+    throw err;
   }
 };
