@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery, useQueries } from "@tanstack/react-query";
-import { Grid, Box, Typography } from "@mui/material";
+import { Grid, Box, Typography, CircularProgress } from "@mui/material";
 import axios from "axios";
 import MovieCard from "../../components/MovieCard/MovieCard";
 
@@ -40,7 +40,7 @@ const LikedMoviesGrid = ({
         {results.map((queryResult: any) => {
           return (
             queryResult.isSuccess && (
-              <MovieCard movieDetails={queryResult.data} key={queryResult.data.id}></MovieCard>
+              <MovieCard movieDetails={queryResult.data} key={queryResult.data.id} />
             )
           );
         })}

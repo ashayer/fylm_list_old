@@ -36,18 +36,3 @@ export const likeMovie = async (req: express.Request, res: express.Response) => 
   }
 };
 
-export const getUserFriends = async (req: express.Request, res: express.Response) => {
-  try {
-    res.status(200).json();
-  } catch (error) {
-    res.status(404).json(error);
-  }
-};
-
-export const addFriend = async (req: express.Request, res: express.Response) => {
-  try {
-    res.status(200).json();
-  } catch (error) {
-    res.status(404).json(error);
-  }
-};
