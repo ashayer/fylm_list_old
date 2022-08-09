@@ -8,15 +8,15 @@ declare global {
 
   interface MoviePopular {
     adult: boolean;
-    backdrop_path: string;
+    backdrop_path: string | undefined | null;
     genre_ids: number[];
     id: number;
     overview: string;
     original_title: string;
     original_language: string;
     popularity: number;
-    poster_path: string;
-    release_date: string;
+    poster_path: string | null;
+    release_date?: string | undefined;
     title: string;
     video: boolean;
     vote_average: number;
@@ -25,7 +25,7 @@ declare global {
 
   interface MovieDetails {
     adult: boolean;
-    backdrop_path: string;
+    backdrop_path: string | undefined | null;
     belongs_to_collection: any;
     budget: number;
     genres: MovieGenre[];
@@ -35,10 +35,10 @@ declare global {
     original_title: string;
     overview: string;
     popularity: number;
-    poster_path: string;
+    poster_path: string | null;
     production_companies: ProductionCompany[];
     production_countries: ProductionCountry[];
-    release_date: string;
+    release_date: string | undefined;
     revenue: number;
     runtime: number;
     spoken_languages: SpokenLanguage[];
