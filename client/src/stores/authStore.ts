@@ -1,13 +1,6 @@
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
-interface AuthState {
-  isUser: boolean;
-  username: string;
-  id: string;
-  setIsUser: (isUser: boolean, username: string, id: string) => void;
-}
-
 const store = (set: any) => ({
   isUser: false,
   username: "",

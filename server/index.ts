@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import authRouter from "./routes/authRoutes.js";
 import movieRouter from "./routes/movieRoutes.js";
 import userRouter from "./routes/userRoutes.js";
-import express from "express";
+import express, { Request, Response, ErrorRequestHandler } from "express";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
 import path from "path";
@@ -29,18 +29,21 @@ app.use("/api/user", requireAuth, userRouter);
 
 //if in development use public index otherwise use build
 if (process.env.DEV === "true") {
-  app.get("/*", function (req: any, res: any) {
-    res.sendFile(path.join(__dirname, "../client/public/index.html"), function (err: any) {
-      if (err) {
-        res.status(500).send(err);
-      }
-    });
+  app.get("/*", function (_req: Request, res: Response) {
+    res.sendFile(
+      path.join(__dirname, "../client/public/index.html"),
+      function (err: ErrorRequestHandler) {
+        if (err) {
+          res.status(500).send(err);
+        }
+      },
+    );
   });
 } else {
   app.use(express.static(path.join(__dirname, "../client/build/")));
   app.use(express.static("public"));
 
-  app.get("*", (req: any, res: any) => {
+  app.get("*", (_req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
   });
 }
