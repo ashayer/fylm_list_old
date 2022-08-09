@@ -1,9 +1,10 @@
-import React from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router-dom";
+import useAuthStore from "../../stores/authStore";
 
-import { Grid, IconButton, TextField } from "@mui/material";
+import { Grid, IconButton, TextField, Typography } from "@mui/material";
 import tempSearch from "./temp";
 import MovieSearchResult from "../../components/MovieSearchResult/MovieSearchResult";
 import SearchIcon from "@mui/icons-material/Search";
@@ -22,6 +23,13 @@ const searchForMovie = async (searchText: string) => {
 };
 
 const MovieSearchResults = () => {
+  const navigate = useNavigate();
+
+  const user = useAuthStore((state) => state.isUser);
+  useEffect(() => {
+    if (!user) navigate("/login");
+  }, [navigate, user]);
+
   const formik = useFormik({
     initialValues: {
       movieSearch: "",
@@ -60,18 +68,23 @@ const MovieSearchResults = () => {
           />
         </form>
       </Grid>
-      {isSuccess &&
-        !isLoading &&
-        data.results.map((movieDetails: MoviePopular) => {
-          return (
-            <MovieSearchResult
-              key={movieDetails.id}
-              movieDetails={movieDetails}
-              isLoading={isLoading}
-              isError={isError}
-            />
-          );
-        })}
+      {isSuccess && !isLoading && data.results.length > 0
+        ? data.results.map((movieDetails: MoviePopular) => {
+            return (
+              <MovieSearchResult
+                key={movieDetails.id}
+                movieDetails={movieDetails}
+                isLoading={isLoading}
+                isError={isError}
+              />
+            );
+          })
+        : !isLoading &&
+          data.results.length === 0 && (
+            <Typography variant="h1" sx={{ fontWeight: "bold" }}>
+              no results 🤷
+            </Typography>
+          )}
     </Grid>
   );
 };

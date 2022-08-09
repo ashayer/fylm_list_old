@@ -6,7 +6,7 @@ const styles = {
     marginInline: "auto",
   },
   navBarIsUserBox: {
-    mr: 5,
+    mr: 2,
     fontSize: "50px",
     display: "flex",
     alignItems: "center",

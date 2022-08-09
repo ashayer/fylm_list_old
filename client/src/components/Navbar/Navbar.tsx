@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import styles from "./navbarStyles";
 import axios from "axios";
+import SearchIcon from "@mui/icons-material/Search";
 
 const Navbar = () => {
   const user = useAuthStore((state) => state.isUser);
@@ -35,15 +36,17 @@ const Navbar = () => {
             sx={{
               ...styles.navBarIsUserBox,
             }}
-            order={{ lg: 1, xs: 2 }}
           >
+            <IconButton sx={{ color: "black" }} onClick={() => navigate("/search")}>
+              <SearchIcon fontSize="large" />
+            </IconButton>
             <IconButton sx={{ color: "black" }} onClick={() => navigate(`/user/${username}`)}>
               <AccountBoxIcon fontSize="large" />
             </IconButton>
           </Grid>
-          <Grid item order={{ lg: 1, xs: 3 }}>
+          <Grid item>
             <Button variant="contained" onClick={() => logoutUser()}>
-              Log Out
+              LOG OUT
             </Button>
           </Grid>
         </>
