@@ -1,10 +1,10 @@
 import React from "react";
-import { useQuery, useQueries } from "@tanstack/react-query";
+import { useQuery, useQueries, UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 import { Grid, Box, Typography, CircularProgress } from "@mui/material";
 import axios from "axios";
 import MovieCard from "../../components/MovieCard/MovieCard";
 
-const getMovieDetails = async (movieId: any) => {
+const getMovieDetails = async (movieId: number) => {
   const response = await axios.get(`/api/movie/getMovie/${movieId}`);
   return response.data;
 };
@@ -14,16 +14,16 @@ const LikedMoviesGrid = ({
   username,
 }: {
   userMovieLikes: number[];
-  username: any;
+  username: string;
 }) => {
-  const queryList = userMovieLikes.map((userId: number) => {
+  const queryList = userMovieLikes.map((movieId: number) => {
     return {
-      queryKey: ["user", userId],
-      queryFn: () => getMovieDetails(userId),
+      queryKey: ["movie-details", movieId],
+      queryFn: () => getMovieDetails(movieId),
     };
   });
 
-  const results = useQueries({ queries: queryList });
+  const results: UseQueryResult<MoviePopular>[] = useQueries({ queries: queryList });
   return (
     <Grid item container xs={11} sx={{ marginInline: "auto" }}>
       <Typography variant="h2" fontWeight="bold">
@@ -37,7 +37,7 @@ const LikedMoviesGrid = ({
         }}
         xs={10}
       >
-        {results.map((queryResult: any) => {
+        {results.map((queryResult: UseQueryResult<MoviePopular>) => {
           return (
             queryResult.isSuccess && (
               <MovieCard movieDetails={queryResult.data} key={queryResult.data.id} />
