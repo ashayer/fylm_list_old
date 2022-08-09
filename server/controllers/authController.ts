@@ -12,6 +12,11 @@ const createToken = (id: mongoose.Types.ObjectId) => {
   });
 };
 
+interface AuthError {
+  code: number;
+  message: string;
+}
+
 export const loginUser = async (req: express.Request, res: express.Response) => {
   const { email, password } = req.body;
   try {
@@ -21,7 +26,8 @@ export const loginUser = async (req: express.Request, res: express.Response) => 
 
     res.status(200).json({ id: user._id, username: user.username });
   } catch (err) {
-    const errors = handleError(err);
+    const typedError = err as AuthError;
+    const errors = handleError(typedError);
     res.status(400).json({ errors });
   }
 };
@@ -34,8 +40,8 @@ export const signupUser = async (req: express.Request, res: express.Response) =>
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(201).json({ id: user.id, username });
   } catch (err) {
-    const errors = handleError(err);
-
+    const typedError = err as AuthError;
+    const errors = handleError(typedError);
     res.status(400).json({ errors });
   }
 };

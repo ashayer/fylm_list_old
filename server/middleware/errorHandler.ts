@@ -1,5 +1,10 @@
-export const handleError = (err: any) => {
-  let errors: any = { email: "", password: "", username: "" };
+interface AuthError {
+  code: number;
+  message: string;
+}
+
+export const handleError = (err: AuthError) => {
+  let errors = { email: "", password: "", username: "" };
   if (err.code === 11000) {
     errors.email = "Account already exists";
   }
