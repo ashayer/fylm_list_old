@@ -15,7 +15,7 @@ const MovieCarousel = ({ movieList }: { movieList: MoviePopular[] }) => {
   return (
     <Grid container sx={{ mb: 5, justifyContent: "center" }}>
       <Grid item>
-        <Typography variant="h2" gutterBottom>
+        <Typography variant="h2" gutterBottom sx={{ fontWeight: "bold" }}>
           Trending Now
         </Typography>
       </Grid>
