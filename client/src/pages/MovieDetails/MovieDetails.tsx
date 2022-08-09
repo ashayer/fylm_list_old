@@ -23,8 +23,12 @@ const getMovieCast = async (movieId: string) => {
   return response.data;
 };
 
-const MovieDetails = ({ movieData }: any) => {
-  let { movieId }: any = useParams();
+type MovieDetailsParams = {
+  movieId: string;
+};
+
+const MovieDetails = () => {
+  let { movieId } = useParams<MovieDetailsParams>();
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.isUser);
 
@@ -33,14 +37,14 @@ const MovieDetails = ({ movieData }: any) => {
     isSuccess: movieSuccess,
     isLoading: movieLoading,
     isError: movieError,
-  } = useQuery(["movie-details", movieId], () => getMovieDetails(movieId), {
+  } = useQuery(["movie-details", movieId], () => getMovieDetails(movieId as string), {
     keepPreviousData: true,
   });
   const {
     data: castDetails,
     isSuccess: castSuccess,
     isLoading: castLoading,
-  } = useQuery(["cast-details", movieId], () => getMovieCast(movieId), {
+  } = useQuery(["cast-details", movieId], () => getMovieCast(movieId as string), {
     keepPreviousData: true,
   });
   const [castLength, setCastLength] = useState<number>(15);

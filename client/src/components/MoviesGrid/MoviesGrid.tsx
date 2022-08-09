@@ -1,4 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
+import { FetchNextPageOptions } from "@tanstack/react-query";
 import { useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import MovieCard from "../MovieCard/MovieCard";
@@ -9,7 +10,7 @@ const MovieGrid = ({ data, fetchNextPage }: { data: any; fetchNextPage: any }) =
     fetchNextPage();
     data.pages.map((page: MoviePopular[]) => (gridLength.current += page.length));
   };
-  
+
   return (
     <InfiniteScroll
       dataLength={gridLength.current} //This is important field to render the next data

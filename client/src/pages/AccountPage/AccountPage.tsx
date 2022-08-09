@@ -10,15 +10,19 @@ import LikedMoviesGrid from "../../components/LikedMovieGrid/LikedMoviesGrid";
 import Loading from "../../components/Loading/Loading";
 import Error from "../../components/Error/Error";
 
-const getUserMovieLikes = async (username: any) => {
+const getUserMovieLikes = async (username: string) => {
   const response = await axios.get(`/api/user/getUserMovieLikes/${username}`);
   return response.data;
+};
+
+type AccountParams = {
+  username: string;
 };
 
 const AccountPage = () => {
   const user = useAuthStore((state) => state.isUser);
   const navigate = useNavigate();
-  let { username }: any = useParams();
+  let { username } = useParams<AccountParams>();
 
   useEffect(() => {
     if (!user) navigate("/login");
@@ -26,7 +30,7 @@ const AccountPage = () => {
 
   const { data, isSuccess, isLoading, isError } = useQuery(
     ["user-likes", username],
-    () => getUserMovieLikes(username),
+    () => getUserMovieLikes(username as string),
     {
       keepPreviousData: true,
     },
@@ -38,7 +42,9 @@ const AccountPage = () => {
 
   return (
     <Box>
-      {isSuccess && !isError && <LikedMoviesGrid userMovieLikes={data} username={username} />}
+      {isSuccess && !isError && (
+        <LikedMoviesGrid userMovieLikes={data} username={username as string} />
+      )}
     </Box>
   );
 };

@@ -19,7 +19,7 @@ const updateUserMovieLikes = async (updatedMovieList: string[], userId: string) 
   } catch (error) {}
 };
 
-const getUserMovieLikes = async (username: any) => {
+const getUserMovieLikes = async (username: string) => {
   const response = await axios.get(`/api/user/getUserMovieLikes/${username}`);
   return response.data;
 };

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Box, Button, Container, Zoom, TextField, Grid, Typography } from "@mui/material";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../stores/authStore";
 
@@ -23,8 +23,9 @@ const loginUser = async (userData: loginProps) => {
   try {
     const response = await axios.post("/api/user/login", userData);
     return response;
-  } catch (error: any) {
-    return error.response;
+  } catch (error) {
+    if (error instanceof AxiosError) return error.response;
+    return error as AxiosError;
   }
 };
 
