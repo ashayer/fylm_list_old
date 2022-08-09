@@ -22,7 +22,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/movie/:movieId" element={<MovieDetails />} />
         <Route path="/user/:username" element={<AccountPage />} />
-        <Route path="/search/:searchText" element={<MovieSearchResults />} />
+        <Route path="/search" element={<MovieSearchResults />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>
