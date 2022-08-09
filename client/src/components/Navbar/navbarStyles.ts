@@ -1,6 +1,5 @@
 const styles = {
   navBarContainer: {
-    minHeight: "10vh",
     backgroundColor: "white",
     alignItems: "center",
     borderBottom: "10px solid #2B2A2A",
